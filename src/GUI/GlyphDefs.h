@@ -1,0 +1,10 @@
+#ifndef GLYPH_DEFS_HPP
+#define GLYPH_DEFS_HPP
+
+#define APP_TAB_MENU_GLYPH "100"
+#define APP_TAB_MENU_SELECTED_GLYPH "101"
+
+#define OK_BTN_GLYPH "129"
+#define PLAY_BTN_GLYPH "130"
+
+#endif // RESOURCE_DEFS_HPP

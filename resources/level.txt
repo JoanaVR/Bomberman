@@ -1,0 +1,35 @@
+<board Rows="10" Columns="10">
+    <object cell_type="unbreakable_block" rows="1" columns="1"/>
+    <object cell_type="unbreakable_block" rows="1" columns="2"/>
+    <object cell_type="unbreakable_block" rows="2" columns="1"/>
+    <object cell_type="block" rows="3" columns="1"/>
+    <object cell_type="unbreakable_block" rows="8" columns="1"/>
+    <object cell_type="block" rows="6" columns="1"/>
+    <object cell_type="block" rows="6" columns="2"/>
+    <object cell_type="unbreakable_block" rows="7" columns="2"/>
+    <object cell_type="unbreakable_block" rows="8" columns="2"/>
+    <object cell_type="block" rows="7" columns="3"/>
+    <object cell_type="block" rows="2" columns="4"/>
+    <object cell_type="block" rows="3" columns="4"/>
+    <object cell_type="unbreakable_block" rows="4" columns="4"/>
+    <object cell_type="unbreakable_block" rows="5" columns="4"/>
+    <object cell_type="block" rows="7" columns="4"/>
+    <object cell_type="block" rows="9" columns="4"/>
+    <object cell_type="unbreakable_block" rows="0" columns="5"/>
+    <object cell_type="unbreakable_block" rows="4" columns="5"/>
+    <object cell_type="block" rows="1" columns="5"/>
+    <object cell_type="block" rows="5" columns="5"/>
+    <object cell_type="block" rows="9" columns="5"/>
+    <object cell_type="block" rows="0" columns="6"/>
+    <object cell_type="block" rows="1" columns="6"/>
+    <object cell_type="block" rows="8" columns="6"/>
+    <object cell_type="block" rows="9" columns="6"/>
+    <object cell_type="unbreakable_block" rows="2" columns="6"/>
+    <object cell_type="unbreakable_block" rows="7" columns="6"/>
+    <object cell_type="unbreakable_block" rows="3" columns="7"/>
+    <object cell_type="unbreakable_block" rows="7" columns="7"/>
+    <object cell_type="block" rows="3" columns="8"/>
+    <object cell_type="block" rows="7" columns="8"/>
+    <object cell_type="block" rows="3" columns="9"/>
+    <object cell_type="player" rows="6" columns="6"/>
+</board>
