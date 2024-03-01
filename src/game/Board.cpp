@@ -195,17 +195,126 @@ void Board::reducePlayerLife()
 
 }
 
+bool Board::isObjectInBombRadius(int bombRow, int bombColumn, int explosionRadius, int objectRow, int objectColumn)
+{
+    if(objectColumn == bombColumn && objectRow <= (bombRow + explosionRadius) && objectRow >= (bombRow - explosionRadius))
+    {
+        return true;
+    }
+    if(objectRow == bombRow && objectColumn <= (bombColumn + explosionRadius) && objectColumn >= (bombColumn - explosionRadius))
+    {
+        return true;
+    }
+    return false;
+}
+
+GameObject::ObjectType Board::getObjectType(int row, int column)
+{
+    for(int i = 0; i < mGameObjects.size(); i++)
+    {
+        if(mGameObjects[i]->getRow() == row && mGameObjects[i]->getColumn() == column)
+        {
+            return mGameObjects[i]->getType();
+        }
+    }
+    return GameObject::EMPTY;
+}
+
 
 void Board::explode(int bombRow, int bombColumn, int explosionRadius)
 {
-    if(mGameObjects.size()< explosionRadius)
+    //find first object under bomb
+    for(int i = bombRow +1; i < mRows ; i++)
     {
-        explosionRadius = mGameObjects.size();
+        GameObject::ObjectType currentObjectType = getObjectType(i, bombColumn);
+        if(currentObjectType == GameObject::EMPTY)
+            continue;
+        else if(currentObjectType == GameObject::BLOCK)
+        {
+            if(isObjectInBombRadius(bombRow, bombColumn, explosionRadius, i, bombColumn))
+            {
+                removeObject(i, bombColumn);
+                break;
+            }
+        }
+        else if(currentObjectType == GameObject::PLAYER)
+        {
+            reducePlayerLife();
+            break;
+        }
+        else
+            break;
     }
-    // find the first object to the right of the bomb
-    for (int i = 0; i < explosionRadius; i++)
+    //find first object on top of bomb
+    for(int i = bombRow-1; i >= 0 ; i--)
+    {   
+        GameObject::ObjectType currentObjectType = getObjectType(i, bombColumn);
+        if(currentObjectType == GameObject::EMPTY)
+            continue;
+        else if(currentObjectType == GameObject::BLOCK)
+        {
+            if(isObjectInBombRadius(bombRow, bombColumn, explosionRadius, i, bombColumn))
+            {
+                removeObject(i, bombColumn);
+                break;
+            }
+        }
+        else if(currentObjectType == GameObject::PLAYER)
+        {
+            reducePlayerLife();
+        }
+        else
+            break;
+    }
+    //find first object to the right of bomb
+    for(int i = bombColumn+1; i < mColumns ; i++)
     {
-        if (mGameObjects[i]->getRow() == bombRow && mGameObjects[i]->getColumn() > bombColumn)
+        GameObject::ObjectType currentObjectType = getObjectType(bombRow, i);
+        if(currentObjectType == GameObject::EMPTY)
+            continue;
+        else if(currentObjectType == GameObject::BLOCK)
+        {
+            if(isObjectInBombRadius(bombRow, bombColumn, explosionRadius, bombRow, i))
+            {
+                removeObject(bombRow, i);
+                break;
+            }
+        }
+        else if(currentObjectType == GameObject::PLAYER)
+        {
+            reducePlayerLife();
+        }
+        else
+            break;
+    }
+    //find first object to the left of bomb
+    for(int i = bombColumn-1; i >= 0 ; i--)
+    {
+        GameObject::ObjectType currentObjectType = getObjectType(bombRow, i);
+        if(currentObjectType == GameObject::EMPTY)
+            continue;
+        else if(currentObjectType == GameObject::BLOCK)
+        {
+            if(isObjectInBombRadius(bombRow, bombColumn, explosionRadius, bombRow, i))
+            {
+                removeObject(bombRow, i);
+                break;
+            }
+        }
+        else if(currentObjectType == GameObject::PLAYER)
+        {
+            reducePlayerLife();
+        }
+        else
+            break;
+    }
+
+
+/*
+    // find the first object to the right of the bomb
+    for (int i = 0; i < mGameObjects.size(); i++)
+    {
+        if (mGameObjects[i]->getRow() == bombRow && mGameObjects[i]->getColumn() > bombColumn && mGameObjects[i]->getColumn() <= (bombColumn + explosionRadius))
         {
             if (mGameObjects[i]->getType() == GameObject::EMPTY)
                 continue;
@@ -216,17 +325,16 @@ void Board::explode(int bombRow, int bombColumn, int explosionRadius)
             }
             else if (mGameObjects[i]->getType() == GameObject::PLAYER)
             {
-                reducePlayerLife();
+                //reducePlayerLife();
                 break;
             }
-            else
-                break;
+            break;
         }
     }
     // find the first object to the left of the bomb
     for (int i = 0; i < explosionRadius; i++)
     {
-        if (mGameObjects[i]->getRow() == bombRow && mGameObjects[i]->getColumn() < bombColumn)
+        if (mGameObjects[i]->getRow() == bombRow && mGameObjects[i]->getColumn() < bombColumn && mGameObjects[i]->getColumn() >= (bombColumn - explosionRadius))
         {
             if (mGameObjects[i]->getType() == GameObject::EMPTY)
                 continue;
@@ -237,17 +345,16 @@ void Board::explode(int bombRow, int bombColumn, int explosionRadius)
             }
             else if (mGameObjects[i]->getType() == GameObject::PLAYER)
             {
-                reducePlayerLife();
+                //reducePlayerLife();
                 break;
             }
-            else
-                break;
+            break;
         }
     }
     // find the first object on top of the bomb
     for (int i = 0; i < explosionRadius; i++)
     {
-        if (mGameObjects[i]->getColumn() == bombColumn && mGameObjects[i]->getRow() < bombRow)
+        if (mGameObjects[i]->getColumn() == bombColumn && mGameObjects[i]->getRow() < bombRow && mGameObjects[i]->getRow() >= (bombRow - explosionRadius))
         {
             if (mGameObjects[i]->getType() == GameObject::EMPTY)
                 continue;
@@ -258,17 +365,16 @@ void Board::explode(int bombRow, int bombColumn, int explosionRadius)
             }
             else if (mGameObjects[i]->getType() == GameObject::PLAYER)
             {
-                reducePlayerLife();
+                //reducePlayerLife();
                 break;
             }
-            else
-                break;
+            break;
         }
     }
     // find the first object under the bomb
     for (int i = 0; i < explosionRadius; i++)
     {
-        if (mGameObjects[i]->getColumn() == bombColumn && mGameObjects[i]->getRow() > bombRow)
+        if (mGameObjects[i]->getColumn() == bombColumn && mGameObjects[i]->getRow() > bombRow && mGameObjects[i]->getRow() <= (bombRow + explosionRadius))
         {
             if (mGameObjects[i]->getType() == GameObject::EMPTY)
                 continue;
@@ -279,13 +385,14 @@ void Board::explode(int bombRow, int bombColumn, int explosionRadius)
             }
             else if (mGameObjects[i]->getType() == GameObject::PLAYER)
             {
-                reducePlayerLife();
+                //reducePlayerLife();
                 break;
             }
-            else
-                break;
+            break;
         }
     }
+    */
+    //remove bomb after explosion
     removeObject(bombRow, bombColumn);
 }
 

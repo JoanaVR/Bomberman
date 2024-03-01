@@ -22,11 +22,13 @@ class Board: public BombExplosionNotification
     void addObject(GameObject* object);
     int getGameObjectsSize() const;
     const GameObject* getObject(int index) const;
+    GameObject::ObjectType getObjectType(int row, int column);
     Player* getPlayer();
     std::vector<std::pair<GameObject*, GameObject*>> findCollisions();
     void move();
     void stopOutOfBoardObjects();
     void removeObject(int row, int column);
+    bool isObjectInBombRadius(int bombRow, int bombColumn, int explosionRadius, int objectRow, int objectColumn);
     void explode(int bombRow, int bombColumn, int explosionRadius) override;
     void placeBomb(int row, int column);
     void reducePlayerLife();

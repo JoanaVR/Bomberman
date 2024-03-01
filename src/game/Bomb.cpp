@@ -21,9 +21,9 @@ void Bomb::move()
     {
         mCanPassThrough = false;
     }
-    if (timer > 100)
+    if (timer > 200)
     {
-        mNotifier->explode(mRow, mColumn, 3);
+        mNotifier->explode(mRow, mColumn, 2);
 
     }
     GameObject::move();

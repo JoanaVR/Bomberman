@@ -5,7 +5,7 @@
 using namespace std;
 
 int GameObject::cellSize = 100;
-int GameObject::mDefaultSpeed = 10;
+int GameObject::mDefaultSpeed = 5;
 
 GameObject::GameObject(int row, int column)
 {
@@ -29,12 +29,12 @@ void GameObject::setDefaulfSpeed(int speed)
 
 int GameObject::getRow() const
 {
-    return mRow;
+    return mY / cellSize;
 }
 
 int GameObject::getColumn() const
 {
-    return mColumn;
+    return mX / cellSize;
 }
 
 int GameObject::getSpeed()
