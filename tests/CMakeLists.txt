@@ -40,7 +40,7 @@ ${gtest_dir}/src/gtest-all.cc
 ../src/game/GameObject.cpp
 ../src/game/Player.cpp
 ../src/game/Bomb.cpp
-
+../src/game/Explosion.cpp
 
 main.cpp
 TestBoard.cpp

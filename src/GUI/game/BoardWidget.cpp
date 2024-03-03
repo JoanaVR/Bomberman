@@ -67,7 +67,9 @@ namespace draw
             break;
             case SDLK_a:
             {
-                Application::getInstance()->m_board->placeBomb(Application::getInstance()->mPlayer->getRow(), Application::getInstance()->mPlayer->getColumn());
+                Bomb *bomb = new Bomb(Application::getInstance()->mPlayer->getRow(), Application::getInstance()->mPlayer->getColumn(), Application::getInstance()->m_board.get());
+                Application::getInstance()->m_board->addObject(bomb);
+                Application::getInstance()->mPlayer->placingBomb(bomb);
             }
             break;
 

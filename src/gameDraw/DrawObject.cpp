@@ -41,6 +41,9 @@ namespace draw
             case GameObject::POWERUP:
                 rava::draw2D::TextureManager::blendGlyphItem(renderer, "125", rectangleToDraw.get_size(),rectangleToDraw.x1_y1(), false);
                 break;
+            case GameObject::EXPLOSION:
+                rava::draw2D::TextureManager::blendGlyphItem(renderer, "126", rectangleToDraw.get_size(),rectangleToDraw.x1_y1(), false);
+                break;
         }
 
         

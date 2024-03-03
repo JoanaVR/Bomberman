@@ -4,8 +4,9 @@ using namespace std;
 
 Bomb::Bomb(int row, int column, BombExplosionNotification* n) : GameObject(row, column)
 {
-    mCanPassThrough = true;
+    mCanPassThrough = false;
     mNotifier = n;
+    timer = 0;
 }
 
 
@@ -21,11 +22,12 @@ void Bomb::move()
     {
         mCanPassThrough = false;
     }
-    if (timer > 200)
+    if (timer > 200*5)
     {
         mNotifier->explode(mRow, mColumn, 2);
 
     }
     GameObject::move();
 }
+
 

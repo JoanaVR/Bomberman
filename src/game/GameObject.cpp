@@ -15,6 +15,7 @@ GameObject::GameObject(int row, int column)
     mY = mRow * cellSize;
     mIsMoving = false;
     mSpeed = 0;
+    mShouldRemove = false;
 }
 
 void GameObject::setCellSize(int size)
@@ -65,6 +66,17 @@ int GameObject::getmY()
 {
     return mY;
 }
+
+bool GameObject::shouldRemove()
+{
+    return mShouldRemove;
+}
+
+void GameObject::setToRemove()
+{
+    mShouldRemove = true;
+}
+
 
 bool GameObject::isNextStepDifferentCell()
 {
@@ -136,6 +148,7 @@ void GameObject::move()
             else if (!flag)
             {
                 doStep();
+                
             }
         }
         else
@@ -148,6 +161,11 @@ void GameObject::move()
 void GameObject::setSpeed(int speed)
 {
     mSpeed = speed;
+}
+
+void GameObject::collision(GameObject* object)
+{
+    forceStopObject();
 }
 
 void GameObject::alignObjectToNearestCell()
@@ -261,6 +279,9 @@ void GameObject::getNextMoveRectangle(rava::traits::Rect &r, bool shrink) const
             break;
         case UP:
             r.translate(0, -mSpeed);
+            break;
+        case STATIONARY:
+            //dont do anything if object isnt moving
             break;
         }
     }

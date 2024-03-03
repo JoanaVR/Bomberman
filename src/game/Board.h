@@ -30,7 +30,6 @@ class Board: public BombExplosionNotification
     void removeObject(int row, int column);
     bool isObjectInBombRadius(int bombRow, int bombColumn, int explosionRadius, int objectRow, int objectColumn);
     void explode(int bombRow, int bombColumn, int explosionRadius) override;
-    void placeBomb(int row, int column);
     void reducePlayerLife();
 
     private:

@@ -18,4 +18,11 @@ GameObject::ObjectType Block::getType() const
         return UNBREAKABLE_BLOCK;
 }
 
+void Block::collision(GameObject* object)
+{
+    if(object->getType() == GameObject::EXPLOSION && mIsBreackable)
+    {
+        setToRemove();
+    }
+}
 

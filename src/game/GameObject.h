@@ -15,7 +15,8 @@ class GameObject
         UNBREAKABLE_BLOCK,
         POWERUP,
         EMPTY,
-        BOMB
+        BOMB,
+        EXPLOSION
     };
 
     enum Direction
@@ -23,7 +24,8 @@ class GameObject
         UP,
         DOWN,
         LEFT,
-        RIGHT
+        RIGHT,
+        STATIONARY
     };
 
     GameObject(int row, int column);
@@ -31,6 +33,7 @@ class GameObject
     virtual void setSpeed(int speed);
     virtual void setDirection(Direction direction);
     virtual void move();
+    virtual void collision(GameObject* object);
     int getRow() const;
     int getColumn() const;
     void getNextMoveRectangle(rava::traits::Rect& r, bool shrink = true) const;
@@ -46,6 +49,9 @@ class GameObject
     int getmY();
     void alignObjectToNearestCell();
     void alignMovingObjectToCell(Direction direction);
+    void setToRemove();
+    bool shouldRemove();
+    
 
     static int cellSize; 
     static void setCellSize(int size);
@@ -62,5 +68,9 @@ class GameObject
     Direction mNextDirection;
     bool mIsMoving;
     static int mDefaultSpeed;
+
+
+    private:
+    bool mShouldRemove;
 
 };

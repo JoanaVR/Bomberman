@@ -66,6 +66,8 @@ TEST(Board, test_explodeBombHorizontally)
     b.addObject(block3);
     EXPECT_EQ(b.getGameObjectsSize(), 3);
     b.explode(2, 2, 3);
+    for(int i = 0; i < 1000; i++)
+        b.move();
     EXPECT_EQ(b.getGameObjectsSize(), 2);
 }
 
@@ -79,6 +81,8 @@ TEST(Board, test_explodeBombVertically)
     b.addObject(block2);
     EXPECT_EQ(b.getGameObjectsSize(), 2);
     b.explode(2, 3, 2);
+    for(int i = 0; i < 1000; i++)
+        b.move();
     EXPECT_EQ(b.getGameObjectsSize(), 0);
 }
 
@@ -92,8 +96,9 @@ TEST(Board, test_placeBomb)
     b.addObject(block2);
     EXPECT_EQ(b.getGameObjectsSize(), 2);
     Player p(2, 3);
-    b.placeBomb(2, 3);
     b.explode(2, 3, 3);
+    for(int i = 0; i < 1000; i++)
+        b.move();
     EXPECT_EQ(b.getGameObjectsSize(), 0);
 }
 

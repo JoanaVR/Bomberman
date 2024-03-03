@@ -71,6 +71,7 @@ src/game/Game.cpp
 src/game/Level.cpp
 src/game/Player.cpp
 src/game/GameObject.cpp
+src/game/Explosion.cpp
 
 src/gameDraw/DrawObject.cpp
 src/gameDraw/GameDrawer.cpp

@@ -121,7 +121,8 @@ bool Level::deserialize(std::string &filename, Board &b)
             }
             else if (std::strcmp(attribute, "bomb") == 0)
             {
-                resultBoard.placeBomb(objectRow, objectColumn);
+                //Bomb *bomb = new Bomb(objectRow, objectColumn, );
+                //resultBoard.addObject(bomb);
             }
         }
     }
