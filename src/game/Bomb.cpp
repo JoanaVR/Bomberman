@@ -22,7 +22,7 @@ void Bomb::move()
     {
         mCanPassThrough = false;
     }
-    if (timer > 200*5)
+    if (timer > 200)
     {
         mNotifier->explode(mRow, mColumn, 2);
 

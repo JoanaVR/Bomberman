@@ -2,6 +2,7 @@
 
 #include <traits.h>
 #include "queue"
+#include "IGameObjectVisitor.h"
 
 class Board;
 class GameObject 
@@ -52,6 +53,7 @@ class GameObject
     void setToRemove();
     bool shouldRemove();
     
+    virtual void accept(IGameObjectVisitor* visitor) const;
 
     static int cellSize; 
     static void setCellSize(int size);

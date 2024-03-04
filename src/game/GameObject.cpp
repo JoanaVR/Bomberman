@@ -291,3 +291,8 @@ void GameObject::getRectangle(rava::traits::Rect &r) const
 {
     r = {mX, mY, mX + cellSize, mY + cellSize};
 }
+
+void GameObject::accept(IGameObjectVisitor* visitor) const
+{
+    visitor->visit(this);
+}

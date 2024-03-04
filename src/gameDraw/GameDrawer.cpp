@@ -29,9 +29,12 @@ namespace draw
     {
         double xRatio = boardRect.width() / static_cast<double>(mBoard->getWidth());
         double yRatio = boardRect.height() /  static_cast<double>(mBoard->getHight()) ;
+        DrawObject drawVisitor(gameDrawer, boardRect, xRatio, yRatio);
         for(int i = 0; i < mBoard->getGameObjectsSize(); i++)
         {
-            DrawObject::draw(gameDrawer,mBoard->getObject(i), boardRect, xRatio, yRatio);
+            //DrawObject::draw(gameDrawer,mBoard->getObject(i), boardRect, xRatio, yRatio);
+            mBoard->getObject(i)->accept(&drawVisitor);
+            
         }
 
     }
