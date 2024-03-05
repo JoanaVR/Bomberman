@@ -29,6 +29,11 @@ namespace draw
                                                   {SDLK_RIGHT, false}, 
                                                   {SDLK_LEFT, false} };
 
+        if(Application::getInstance()->mPlayer->getLives() == 0)
+        {
+            Application::getInstance()->onGameOver();
+        }
+
         if (action == SDL_PRESSED)
         {
             LOG_MIL("keyboardEvent pressed, key: %d", key);    
@@ -37,8 +42,6 @@ namespace draw
             {
             case SDLK_UP:
             {
-                
-                
                 Application::getInstance()->mPlayer->setDirection(GameObject::UP);
             }
             break;
@@ -67,9 +70,9 @@ namespace draw
             break;
             case SDLK_a:
             {
-                Bomb *bomb = new Bomb(Application::getInstance()->mPlayer->getRow(), Application::getInstance()->mPlayer->getColumn(), Application::getInstance()->m_board.get());
-                Application::getInstance()->m_board->addObject(bomb);
-                Application::getInstance()->mPlayer->placingBomb(bomb);
+                Bomb *bomb = Application::getInstance()->mPlayer->placingBomb(Application::getInstance()->m_board.get());
+                if(bomb)
+                    Application::getInstance()->m_board->addObject(bomb);
             }
             break;
 

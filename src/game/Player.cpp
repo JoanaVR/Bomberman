@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Bomb.h"
+#include "BombExplosionNotification.h"
 
 using namespace std;
 
@@ -9,17 +10,22 @@ Player::Player(int row, int column) : GameObject(row, column)
     mLives = 3;
     mBomb = nullptr;
     mTimer = 0;
+    mState = NORMAL;
 }
 
 Player::~Player()
 {
-    
-
 }
 
-void Player::placingBomb(GameObject* bomb)
+Bomb *Player::placingBomb(BombExplosionNotification *notifier)
 {
-    mBomb = bomb;
+    if (mBomb == nullptr)
+    {
+        Bomb *bomb = new Bomb(getRow(), getColumn(), notifier, 2);
+        mBomb = bomb;
+        return bomb;
+    }
+    return nullptr;
 }
 
 GameObject::ObjectType Player::getType() const
@@ -34,7 +40,7 @@ int Player::getLives()
 
 void Player::reduceLives()
 {
-    mLives -= 1;
+    mLives = mLives - 1;
 }
 
 Player::State Player::getState() const
@@ -42,27 +48,25 @@ Player::State Player::getState() const
     return mState;
 }
 
-
-bool Player::isMyBomb(GameObject* bomb)
+bool Player::isMyBomb(GameObject *bomb)
 {
-    if(mBomb == bomb)
+    if (mBomb == bomb)
         return true;
     return false;
 }
 
-
-void Player::collision(GameObject* object)
+void Player::collision(GameObject *object)
 {
-    if(object->getType() == GameObject::EXPLOSION)
+    if (object->getType() == GameObject::EXPLOSION)
     {
         mState = DYEING;
         reduceLives();
-        forceStopObject();
+        stopObject();
         mTimer = 100;
     }
-    else if(object->getType() == GameObject::BOMB)
+    else if (object->getType() == GameObject::BOMB)
     {
-        if(!isMyBomb(object))
+        if (!isMyBomb(object))
             forceStopObject();
     }
     else
@@ -71,35 +75,40 @@ void Player::collision(GameObject* object)
     }
 }
 
+void Player::setDirection(Direction direction)
+{
+    if (mState == NORMAL)
+        GameObject::setDirection(direction);
+}
+
 void Player::move()
 {
-    if(mTimer != 0)
+    if (mTimer != 0)
     {
         mTimer -= 1;
     }
     else
     {
         mState = NORMAL;
-        GameObject::move();
-        //check if player is still in same cell as placed bomb
-        if(mBomb != nullptr)
-        {
-            //checkif i have an intersection my bomb
-            rava::traits::Rect bombRectangle;
-            mBomb->getRectangle(bombRectangle);
-            bombRectangle.shrink(1);
-            rava::traits::Rect playerRectangle;
-            getRectangle(playerRectangle);
-            playerRectangle.shrink(1);
+    }
+    GameObject::move();
+    // check if player is still in same cell as placed bomb
+    if (mBomb != nullptr)
+    {
+        // checkif i have an intersection my bomb
+        rava::traits::Rect bombRectangle;
+        mBomb->getRectangle(bombRectangle);
+        bombRectangle.shrink(1);
+        rava::traits::Rect playerRectangle;
+        getRectangle(playerRectangle);
+        playerRectangle.shrink(1);
 
-            if(!bombRectangle.intersect(playerRectangle))
-                mBomb = nullptr;
-        }
+        if (!bombRectangle.intersect(playerRectangle))
+            mBomb = nullptr;
     }
 }
 
-void Player::accept(IGameObjectVisitor* visitor) const
+void Player::accept(IGameObjectVisitor *visitor) const
 {
     visitor->visit(this);
 }
-

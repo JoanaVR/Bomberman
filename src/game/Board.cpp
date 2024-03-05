@@ -181,6 +181,14 @@ void Board::removeObject(int row, int column)
     }
 }
 
+void Board::removeObject(GameObject* object)
+{
+    auto it = std::find(mGameObjects.begin(), mGameObjects.end(), object); 
+    mGameObjects.erase(it);
+    delete object;
+}
+
+
 void Board::reducePlayerLife()
 {
     if (getPlayer()->getLives() == 1)
@@ -218,10 +226,13 @@ GameObject::ObjectType Board::getObjectType(int row, int column)
     return GameObject::EMPTY;
 }
 
-void Board::explode(int bombRow, int bombColumn, int explosionRadius)
+void Board::explode(Bomb* bomb)
 {
     // place explosions where the bomb
-    removeObject(bombRow, bombColumn);
+    auto bombRow = bomb->getRow();
+    auto bombColumn = bomb->getColumn();
+    auto explosionRadius = bomb->getExplosionRadius();
+    removeObject(bomb);
     Explosion *explosion = new Explosion(bombRow, bombColumn, GameObject::STATIONARY, false);
     addObject(explosion);
 

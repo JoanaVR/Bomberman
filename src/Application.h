@@ -44,6 +44,8 @@ public:
 	
 	std::shared_ptr<Board> getBoard() const { return m_board;}
     void newGame ();
+	void onGameOver();
+
 
 	std::shared_ptr<rava::gui::GamaScreen> getGameScreen() const { return m_gameScreen; }
 

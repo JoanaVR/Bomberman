@@ -93,3 +93,9 @@ void Application::newGame()
 	
 	mGameDrawer.reset(new draw::GameDrawer(m_board));
 }
+
+void Application::onGameOver()
+{
+	rava::gui::GameOverDialogFactory::create(m_renderer);
+
+}

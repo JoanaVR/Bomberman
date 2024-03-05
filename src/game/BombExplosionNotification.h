@@ -7,5 +7,5 @@ class Bomb;
 class BombExplosionNotification
 {
     public:
-    virtual void explode(int bombRow, int bombColumn, int explosionRadius) = 0;
+    virtual void explode(Bomb* bomb) = 0;
 };

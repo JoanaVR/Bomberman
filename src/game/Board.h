@@ -28,8 +28,9 @@ class Board: public BombExplosionNotification
     void move();
     void stopOutOfBoardObjects();
     void removeObject(int row, int column);
+    void removeObject(GameObject* object);
     bool isObjectInBombRadius(int bombRow, int bombColumn, int explosionRadius, int objectRow, int objectColumn);
-    void explode(int bombRow, int bombColumn, int explosionRadius) override;
+    void explode(Bomb* bomb) override;
     void reducePlayerLife();
 
     private:
