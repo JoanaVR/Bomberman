@@ -4,7 +4,7 @@ using namespace std;
 
 Explosion::Explosion(int row, int column, Direction direction, bool isEnd) : GameObject(row, column)
 {
-    mCanPassThrough = false;
+    mCanPassThrough = true;
     mExplosionDirection = direction;
     mIsEndExplosion = isEnd;
     timer = 0;
@@ -19,7 +19,7 @@ GameObject::ObjectType Explosion::getType() const
 void Explosion::move()
 { 
     timer++;
-    if(timer > 50)
+    if(timer > 100)
     {
         setToRemove();
     }

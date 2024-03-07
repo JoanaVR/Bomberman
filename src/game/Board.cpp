@@ -9,8 +9,9 @@
 
 using namespace std;
 
-Board::Board(int row, int column)
+Board::Board(int row, int column, std::function<void ()> onGameOver)
 {
+    mOnGameOver = onGameOver;
     mRows = row;
     mColumns = column;
     mWidth = mColumns * GameObject::cellSize;
@@ -166,6 +167,10 @@ void Board::move()
     auto it = std::remove_if(mGameObjects.begin(), mGameObjects.end(), [](GameObject *object)
                              { return object->shouldRemove(); });
     mGameObjects.erase(it, mGameObjects.end());
+    if(getPlayer() && getPlayer()->getLives() < 1)
+    {
+        mOnGameOver();
+    }
 }
 
 void Board::removeObject(int row, int column)

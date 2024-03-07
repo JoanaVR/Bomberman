@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "BombExplosionNotification.h"
 #include "Bomb.h"
+#include "Explosion.h"
 
 
 class Player: public GameObject
@@ -33,6 +34,7 @@ class Player: public GameObject
     bool isMyBomb(GameObject* bomb);
     State mState;
     int mTimer;
+    Explosion* mExplosionColidedWith;
 
     
 };

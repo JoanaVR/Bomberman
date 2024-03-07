@@ -14,7 +14,7 @@ namespace draw
         void draw(SDL_Renderer *renderer) override;
 
         bool keyboardEvent(int key, int scancode, int action, int modifiers ) override;
-
+        
     };
 
 }

@@ -7,10 +7,11 @@ using namespace std;
 Player::Player(int row, int column) : GameObject(row, column)
 {
     mCanPassThrough = true;
-    mLives = 3;
+    mLives = 300;
     mBomb = nullptr;
     mTimer = 0;
     mState = NORMAL;
+    mExplosionColidedWith = nullptr;
 }
 
 Player::~Player()
@@ -59,10 +60,18 @@ void Player::collision(GameObject *object)
 {
     if (object->getType() == GameObject::EXPLOSION)
     {
-        mState = DYEING;
-        reduceLives();
-        stopObject();
-        mTimer = 100;
+        if(mExplosionColidedWith != object)
+        {
+            //ensure that we stop on the same coordinates as the explosion
+            if(!isNextStepDifferentCell())
+            {
+                mExplosionColidedWith = (Explosion*)object;
+                mState = DYEING;
+                reduceLives();
+                stopObject();
+                mTimer = 100;
+            }
+        }
     }
     else if (object->getType() == GameObject::BOMB)
     {

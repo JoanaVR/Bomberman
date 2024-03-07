@@ -29,10 +29,6 @@ namespace draw
                                                   {SDLK_RIGHT, false}, 
                                                   {SDLK_LEFT, false} };
 
-        if(Application::getInstance()->mPlayer->getLives() == 0)
-        {
-            Application::getInstance()->onGameOver();
-        }
 
         if (action == SDL_PRESSED)
         {

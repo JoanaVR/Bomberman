@@ -243,3 +243,36 @@ TEST(Board, test_playerCornerTurning)
     EXPECT_EQ(player->getmX(), 33);
     EXPECT_EQ(player->getmY(), 10);
 }
+
+TEST(Board, test_isNextStepDifferentCellRightAndDown)
+{
+    GameObject::setCellSize(10);
+    GameObject::setDefaulfSpeed(7);
+    Level l;
+    Board b(2, 2);
+    Player *player = new Player(0, 0);
+    b.addObject(player);
+    player->setDirection(GameObject::RIGHT);
+    b.move();
+    EXPECT_TRUE(player->isNextStepDifferentCell());
+    b.move();
+    b.move();
+    b.move();
+    player->setDirection(GameObject::DOWN);
+    b.move();
+    EXPECT_TRUE(player->isNextStepDifferentCell());
+}
+
+TEST(Board, test_isNextStepDifferentCellLeftAndDown)
+{
+    GameObject::setCellSize(10);
+    GameObject::setDefaulfSpeed(7);
+    Level l;
+    Board b(2, 2);
+    Player *player = new Player(1, 1);
+    b.addObject(player);
+    player->setDirection(GameObject::LEFT);
+    EXPECT_TRUE(player->isNextStepDifferentCell());
+    player->setDirection(GameObject::UP);
+    EXPECT_TRUE(player->isNextStepDifferentCell());
+}

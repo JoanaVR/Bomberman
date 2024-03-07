@@ -26,19 +26,19 @@ namespace draw
         {
         case GameObject::BLOCK:
 
-            rava::draw2D::TextureManager::blendGlyphItem(renderer, "129", rectangleToDraw.get_size(), rectangleToDraw.x1_y1(), false);
+            rava::draw2D::TextureManager::blendGlyphItem(renderer, "block", rectangleToDraw.get_size(), rectangleToDraw.x1_y1(), false);
             break;
         case GameObject::UNBREAKABLE_BLOCK:
-            rava::draw2D::TextureManager::blendGlyphItem(renderer, "128", rectangleToDraw.get_size(), rectangleToDraw.x1_y1(), false);
+            rava::draw2D::TextureManager::blendGlyphItem(renderer, "unbreackableBlock", rectangleToDraw.get_size(), rectangleToDraw.x1_y1(), false);
             break;
         case GameObject::BOMB:
-            rava::draw2D::TextureManager::blendGlyphItem(renderer, "126", rectangleToDraw.get_size(), rectangleToDraw.x1_y1(), false);
+            rava::draw2D::TextureManager::blendGlyphItem(renderer, "bomb", rectangleToDraw.get_size(), rectangleToDraw.x1_y1(), false);
             break;
         case GameObject::POWERUP:
             rava::draw2D::TextureManager::blendGlyphItem(renderer, "125", rectangleToDraw.get_size(), rectangleToDraw.x1_y1(), false);
             break;
         case GameObject::EXPLOSION:
-            rava::draw2D::TextureManager::blendGlyphItem(renderer, "126", rectangleToDraw.get_size(), rectangleToDraw.x1_y1(), false);
+            rava::draw2D::TextureManager::blendGlyphItem(renderer, "explosion", rectangleToDraw.get_size(), rectangleToDraw.x1_y1(), false);
             break;
         }
 
@@ -57,7 +57,7 @@ namespace draw
         rava::traits::Rect rectangleToDraw(boundingRect.x1() * mXRatio + mDisplayRect.x1(), boundingRect.y1() * mYRatio + mDisplayRect.y1(), boundingRect.x2() * mXRatio + mDisplayRect.x1(), boundingRect.y2() * mYRatio + mDisplayRect.y1());
 
         if(player->getState() == Player::NORMAL)
-            rava::draw2D::TextureManager::blendGlyphItem(mRenderer, "123", rectangleToDraw.get_size(), rectangleToDraw.x1_y1(), false);
+            rava::draw2D::TextureManager::blendGlyphItem(mRenderer, "player", rectangleToDraw.get_size(), rectangleToDraw.x1_y1(), false);
         else
             rava::draw2D::TextureManager::blendGlyphItem(mRenderer, "125", rectangleToDraw.get_size(), rectangleToDraw.x1_y1(), false);
         //draw(mRenderer, (GameObject*)player, mDisplayRect, mXRatio, mYRatio);

@@ -83,10 +83,37 @@ bool GameObject::isNextStepDifferentCell()
     rava::traits::Rect futureRect;
     getNextMoveRectangle(futureRect, false);
 
+    /*//get the rectangle of the next cell in the current direction
+    rava::traits::Rect nextCellRectangle;
+    getRectangle(nextCellRectangle);
+    switch (mDirection)
+    {
+    case RIGHT:
+        nextCellRectangle.translate(cellSize, 0);
+        break;
+    case LEFT:
+        nextCellRectangle.translate(-cellSize, 0);
+        break;
+    case DOWN:
+        nextCellRectangle.translate(0, cellSize);
+        break;
+    case UP:
+        nextCellRectangle.translate(0, -cellSize);
+        break;
+    case STATIONARY:
+        //dont do anything if object isnt moving
+        break;
+    }
+    //if the future rectangle and next cell intersect then true
+    if(futureRect.intersect(nextCellRectangle))
+        return true;
+    else
+    return false;*/
+
+    
     // check if next step is out of board
     if (futureRect.x1() < 0 || futureRect.y1() < 0)
         return true;
-
     if ((mX / cellSize == futureRect.x1() / cellSize) && (mY / cellSize == futureRect.y1() / cellSize))
     {
         LOG_MIL("not next cell x: %d, y: %d", mX, mY);
@@ -219,24 +246,6 @@ void GameObject::stopObject()
 {
     LOG_MIL("stop object");
     mIsMoving = false;
-
-    /*
-    if (mSpeed == 0)
-        return;
-
-    std::cout << "this is mx and my:" << mX << ", "<< mY<< std::endl;
-
-    auto x = (mX/cellSize)*cellSize + cellSize/2;
-    auto y = (mY/cellSize)*cellSize + cellSize/2;
-    if(mX < x)
-        mX = (mX/cellSize)*cellSize;
-    else if (mX > x)
-        mX = (mX/cellSize)*cellSize + cellSize;
-    if(mY < y)
-        mY = (mY/cellSize)*cellSize;
-    else if (mY > y)
-        mY = (mY/cellSize)*cellSize + cellSize;
-    */
 }
 
 void GameObject::setDirection(Direction direction)

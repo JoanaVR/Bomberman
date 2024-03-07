@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <functional>
 #include "GameObject.h"
 #include "Blocks.h"
 #include "Player.h"
@@ -11,7 +12,7 @@ class Board: public BombExplosionNotification
 {
     public:
 
-    Board(int row, int column);
+    Board(int row, int column, std::function<void ()> onGameOver = nullptr);
     Board& operator = (const Board& b);
 
     int getRows () const;
@@ -40,5 +41,6 @@ class Board: public BombExplosionNotification
     int mColumns;
     int mWidth;
     int mHight;
+    std::function<void ()> mOnGameOver;
     
 };
