@@ -37,7 +37,8 @@ TEST(LevelTest, test_serialiser)
     std::string str = l.serialize(b);
     std::cout << str;
     Board b2(0,0);
-    EXPECT_TRUE(l.deserialize(str, b2));
+    std::vector<Player*> players;
+    EXPECT_TRUE(l.deserialize(str, b2, players));
     EXPECT_EQ(b.getRows(), b2.getRows());
     EXPECT_EQ(b.getColumns(), b2.getColumns());
     for (int i = 0; i < b.getGameObjectsSize(); i++)

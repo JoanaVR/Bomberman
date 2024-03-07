@@ -7,7 +7,7 @@ using namespace std;
 Player::Player(int row, int column) : GameObject(row, column)
 {
     mCanPassThrough = true;
-    mLives = 300;
+    mLives = 3;
     mBomb = nullptr;
     mTimer = 0;
     mState = NORMAL;

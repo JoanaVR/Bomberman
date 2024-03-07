@@ -8,7 +8,7 @@ class Level
 {
     public:
     std::string serialize(const Board& Board);
-    bool deserialize(std::string& filename, Board& b);
+    bool deserialize(const std::string &xmlText, Board& b, std::vector<Player*> &players);
 
 
 };

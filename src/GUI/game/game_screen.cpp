@@ -40,7 +40,7 @@ namespace rava::gui
     void GamaScreen::onResize(int newScreenW, int newScreenH)
     {
         rava::gui::DisplayScreen::setSize({newScreenW, newScreenH});
-        auto board = Application::getInstance()->getBoard();
+        //auto board = Application::getInstance()->mGame->getBoard();
         auto boardRect = utils::GuiFactory::getBoardRect();
         mBoardWidget->setSize({boardRect.width(), boardRect.height()});
         mBoardWidget->setPosition(boardRect.x1_y1());

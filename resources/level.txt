@@ -32,4 +32,5 @@
     <object cell_type="block" rows="7" columns="8"/>
     <object cell_type="block" rows="3" columns="9"/>
     <object cell_type="player" rows="6" columns="6"/>
+    <object cell_type="player" rows="0" columns="0"/>
 </board>

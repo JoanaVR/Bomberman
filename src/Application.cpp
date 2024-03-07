@@ -87,11 +87,9 @@ void Application::newGame()
 {
 	Level l;
 	std::string level = utils::FileManager::readResourceFile("level.txt");
-	m_board.reset(new Board(1, 1, [this](){onGameOver();}));
-	l.deserialize(level, *m_board);
-	mPlayer = m_board->getPlayer();
+	mGame.reset(new Game(level, [this](){onGameOver();}));
 	
-	mGameDrawer.reset(new draw::GameDrawer(m_board));
+	mGameDrawer.reset(new draw::GameDrawer(mGame->getBoard()));
 }
 
 void Application::onGameOver()

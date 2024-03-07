@@ -18,78 +18,38 @@ namespace draw
         // rava::traits::Color btnColor(235, 124, 124);
         // rava::draw2D::fill(renderer, boundingRect, btnColor);
 
+        Application::getInstance()->mGame->move();
         Widget::draw(renderer);
         Application::getInstance()->mGameDrawer->drawBoard(renderer, boundingRect);
     }
 
     bool BoardWidget::keyboardEvent(int key, int scancode, int action, int modifiers)
     {
-        static std::map<int, bool> currentKeys = {{SDLK_UP, false}, 
-                                                  {SDLK_DOWN, false}, 
-                                                  {SDLK_RIGHT, false}, 
-                                                  {SDLK_LEFT, false} };
 
+        static std::map<int, int> keysMap = {{SDLK_UP, Game::K_UP},
+                                                 {SDLK_DOWN, Game::K_DOWN},
+                                                 {SDLK_RIGHT, Game::K_RIGHT},
+                                                 {SDLK_LEFT, Game::K_LEFT},
+                                                 {SDLK_a, Game::K_a},
+                                                 {SDLK_s, Game::K_s},
+                                                 {SDLK_d, Game::K_d},
+                                                 {SDLK_w, Game::K_w},
+                                                 {SDLK_KP_ENTER, Game::K_ENTER},
+                                                 {SDLK_SPACE, Game::K_SPACE}};
 
+        int currentKey = Game::K_UNDEFINED;
+        auto f = keysMap.find(key);
+        if(f != keysMap.end())
+            currentKey = f->second;
+
+        int currentAction = Game::UNDEFINED;
         if (action == SDL_PRESSED)
-        {
-            LOG_MIL("keyboardEvent pressed, key: %d", key);    
-            currentKeys[key] = true;
-            switch (key)
-            {
-            case SDLK_UP:
-            {
-                Application::getInstance()->mPlayer->setDirection(GameObject::UP);
-            }
-            break;
-            case SDLK_DOWN:
-            {
-                Application::getInstance()->mPlayer->setDirection(GameObject::DOWN);
-            }
-            break;
-            case SDLK_RIGHT:
-            {
-                Application::getInstance()->mPlayer->setDirection(GameObject::RIGHT);
-            }
-            break;
-            case SDLK_LEFT:
-            {
-                Application::getInstance()->mPlayer->setDirection(GameObject::LEFT);
-            }
-            break;
-            case SDLK_KP_ENTER:
-            {
-            }
-            break;
-            case SDLK_SPACE:
-            {
-            }
-            break;
-            case SDLK_a:
-            {
-                Bomb *bomb = Application::getInstance()->mPlayer->placingBomb(Application::getInstance()->m_board.get());
-                if(bomb)
-                    Application::getInstance()->m_board->addObject(bomb);
-            }
-            break;
-
-            case SDLK_DELETE:
-            {
-            }
-            break;
-            }
-        }
+            currentAction = Game::PRESSED;
         else if (action == SDL_RELEASED)
-        {
-            currentKeys[key] = false;
-            LOG_MIL("keyboardEvent RELESED, key: %d", key);
-            bool havePressedDirection = false;    
-            for(auto &i : currentKeys )
-            {
-                havePressedDirection |= i.second;
-            }
-            if(!havePressedDirection)
-                Application::getInstance()->mPlayer->stopObject();
-        }
+            currentAction = Game::RELEASED;
+
+        Application::getInstance()->mGame->keyboardEvent(currentKey, scancode, currentAction, modifiers);
+
         return true;
     }
 

@@ -6,8 +6,9 @@ Bomb::Bomb(int row, int column, BombExplosionNotification* n, int explosionRadiu
 {
     mCanPassThrough = false;
     mNotifier = n;
-    timer = 0;
+    mTimer = 0;
     mExplosionRadius = explosionRadius;
+    mExplosionStartedTimer = -1;
 }
 
 
@@ -23,12 +24,14 @@ int Bomb::getExplosionRadius() const
 
 void Bomb::move()
 {
-    timer++;
-    if(timer > 50)
+    mTimer++;
+    if(mExplosionStartedTimer != -1)
+        mExplosionStartedTimer ++;
+    if(mTimer > 50)
     {
         mCanPassThrough = false;
     }
-    if (timer > 200)
+    if (mTimer > 200 || mExplosionStartedTimer > 10)
     {
         mNotifier->explode(this);
 
@@ -36,4 +39,17 @@ void Bomb::move()
     GameObject::move();
 }
 
+void Bomb::collision(GameObject *object)
+{
+    if (object->getType() == GameObject::EXPLOSION)
+    {
+        //if timer hasnt statred then start it 
+        if(mExplosionStartedTimer == -1)
+            mExplosionStartedTimer = 0;
+    }
+    else
+    {
+        forceStopObject();
+    }
+}
 

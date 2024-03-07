@@ -56,10 +56,10 @@ std::string Level::serialize(const Board &board)
     return std::string(myPrinter.CStr());
 }
 
-bool Level::deserialize(std::string &filename, Board &b)
+bool Level::deserialize(const std::string &xmlText, Board &b, std::vector<Player*> &players)
 {
     tinyxml2::XMLDocument doc;
-    doc.Parse(filename.data(), filename.size());
+    doc.Parse(xmlText.data(), xmlText.size());
 
     if (doc.Error())
     {
@@ -104,6 +104,7 @@ bool Level::deserialize(std::string &filename, Board &b)
             {
                 Player *p = new Player(objectRow, objectColumn);
                 resultBoard.addObject(p);
+                players.push_back(p);
             }
             else if (std::strcmp(attribute, "block") == 0)
             {

@@ -9,9 +9,9 @@
 
 using namespace std;
 
-Board::Board(int row, int column, std::function<void ()> onGameOver)
+Board::Board(int row, int column)
 {
-    mOnGameOver = onGameOver;
+    
     mRows = row;
     mColumns = column;
     mWidth = mColumns * GameObject::cellSize;
@@ -167,10 +167,6 @@ void Board::move()
     auto it = std::remove_if(mGameObjects.begin(), mGameObjects.end(), [](GameObject *object)
                              { return object->shouldRemove(); });
     mGameObjects.erase(it, mGameObjects.end());
-    if(getPlayer() && getPlayer()->getLives() < 1)
-    {
-        mOnGameOver();
-    }
 }
 
 void Board::removeObject(int row, int column)
@@ -191,19 +187,6 @@ void Board::removeObject(GameObject* object)
     auto it = std::find(mGameObjects.begin(), mGameObjects.end(), object); 
     mGameObjects.erase(it);
     delete object;
-}
-
-
-void Board::reducePlayerLife()
-{
-    if (getPlayer()->getLives() == 1)
-    {
-        // remove player and gameOver
-    }
-    else
-    {
-        getPlayer()->reduceLives();
-    }
 }
 
 bool Board::isObjectInBombRadius(int bombRow, int bombColumn, int explosionRadius, int objectRow, int objectColumn)
@@ -335,93 +318,5 @@ void Board::explode(Bomb* bomb)
         if (currentObjectType == GameObject::BLOCK)
             break;
     }
-
-    /*
-    //find first object under bomb
-    for(int i = bombRow +1; i < mRows ; i++)
-    {
-        GameObject::ObjectType currentObjectType = getObjectType(i, bombColumn);
-        if(currentObjectType == GameObject::EMPTY)
-            continue;
-        else if(currentObjectType == GameObject::BLOCK)
-        {
-            if(isObjectInBombRadius(bombRow, bombColumn, explosionRadius, i, bombColumn))
-            {
-                removeObject(i, bombColumn);
-                break;
-            }
-        }
-        else if(currentObjectType == GameObject::PLAYER)
-        {
-            reducePlayerLife();
-            break;
-        }
-        else
-            break;
-    }
-    //find first object on top of bomb
-    for(int i = bombRow-1; i >= 0 ; i--)
-    {
-        GameObject::ObjectType currentObjectType = getObjectType(i, bombColumn);
-        if(currentObjectType == GameObject::EMPTY)
-            continue;
-        else if(currentObjectType == GameObject::BLOCK)
-        {
-            if(isObjectInBombRadius(bombRow, bombColumn, explosionRadius, i, bombColumn))
-            {
-                removeObject(i, bombColumn);
-                break;
-            }
-        }
-        else if(currentObjectType == GameObject::PLAYER)
-        {
-            reducePlayerLife();
-        }
-        else
-            break;
-    }
-    //find first object to the right of bomb
-    for(int i = bombColumn+1; i < mColumns ; i++)
-    {
-        GameObject::ObjectType currentObjectType = getObjectType(bombRow, i);
-        if(currentObjectType == GameObject::EMPTY)
-            continue;
-        else if(currentObjectType == GameObject::BLOCK)
-        {
-            if(isObjectInBombRadius(bombRow, bombColumn, explosionRadius, bombRow, i))
-            {
-                removeObject(bombRow, i);
-                break;
-            }
-        }
-        else if(currentObjectType == GameObject::PLAYER)
-        {
-            reducePlayerLife();
-        }
-        else
-            break;
-    }
-    //find first object to the left of bomb
-    for(int i = bombColumn-1; i >= 0 ; i--)
-    {
-        GameObject::ObjectType currentObjectType = getObjectType(bombRow, i);
-        if(currentObjectType == GameObject::EMPTY)
-            continue;
-        else if(currentObjectType == GameObject::BLOCK)
-        {
-            if(isObjectInBombRadius(bombRow, bombColumn, explosionRadius, bombRow, i))
-            {
-                removeObject(bombRow, i);
-                break;
-            }
-        }
-        else if(currentObjectType == GameObject::PLAYER)
-        {
-            reducePlayerLife();
-        }
-        else
-            break;
-    }
-    removeObject(bombRow, bombColumn);*/
 }
 

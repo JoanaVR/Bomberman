@@ -12,14 +12,14 @@ namespace draw
     {
         public:
 
-        GameDrawer(std::shared_ptr<Board> b);
+        GameDrawer(Board* b);
         ~GameDrawer();
         std::vector<DrawObject *> mObjectsToDraw;
         void drawBoard(SDL_Renderer *gameDrawer, const rava::traits::Rect& boardRect);
         void drawObjects(SDL_Renderer *gameDrawer, const rava::traits::Rect& boardRect);
 
         private:
-        std::shared_ptr<Board> mBoard;
+        Board* mBoard;
 
     };
 

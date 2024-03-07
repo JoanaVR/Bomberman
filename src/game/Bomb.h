@@ -9,9 +9,11 @@ class Bomb: public GameObject
     GameObject::ObjectType getType() const; 
     virtual void move() override;
     int getExplosionRadius() const;
+    void collision(GameObject* object) override;
 
     private:
-    int timer;
+    int mTimer;
+    int mExplosionStartedTimer;
     BombExplosionNotification* mNotifier;
     int mExplosionRadius;
 };

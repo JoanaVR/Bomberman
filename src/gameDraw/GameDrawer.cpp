@@ -4,14 +4,14 @@
 
 namespace draw
 {
-    GameDrawer::GameDrawer(std::shared_ptr<Board> b)
+    GameDrawer::GameDrawer(Board* b)
     {
         mBoard = b;
     }
 
     GameDrawer::~GameDrawer()
     {
-        mBoard.reset();
+        mBoard = nullptr;
     }
 
 
@@ -21,7 +21,7 @@ namespace draw
         rava::traits::Color btnColor(235, 235, 235);
         rava::draw2D::fill(gameDrawer, boardRect, btnColor);
         drawObjects(gameDrawer,boardRect);
-        mBoard->move();
+        //mBoard->move();
 
     }
 

@@ -12,6 +12,7 @@
 #include "game/Board.h"
 #include "gameDraw/GameDrawer.h"
 #include "game/Player.h"
+#include "game/Game.h"
 
 
 class Application : public rava::app::AppBase
@@ -42,14 +43,13 @@ public:
 	
 
 	
-	std::shared_ptr<Board> getBoard() const { return m_board;}
     void newGame ();
 	void onGameOver();
 
 
 	std::shared_ptr<rava::gui::GamaScreen> getGameScreen() const { return m_gameScreen; }
 
-	std::shared_ptr<Board> m_board;
+
 
 
 	SDL_Renderer *m_renderer;
@@ -57,6 +57,8 @@ public:
 	int mScreenH;
 	std::shared_ptr<draw::GameDrawer> mGameDrawer;
 	Player* mPlayer;
+	Player* mPlayerTwo;
+	std::shared_ptr<Game> mGame;
 
 private:
 	

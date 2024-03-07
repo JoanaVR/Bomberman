@@ -12,7 +12,7 @@ class Board: public BombExplosionNotification
 {
     public:
 
-    Board(int row, int column, std::function<void ()> onGameOver = nullptr);
+    Board(int row, int column);
     Board& operator = (const Board& b);
 
     int getRows () const;
@@ -32,7 +32,6 @@ class Board: public BombExplosionNotification
     void removeObject(GameObject* object);
     bool isObjectInBombRadius(int bombRow, int bombColumn, int explosionRadius, int objectRow, int objectColumn);
     void explode(Bomb* bomb) override;
-    void reducePlayerLife();
 
     private:
     std::vector<GameObject*> mGameObjects;
@@ -41,6 +40,6 @@ class Board: public BombExplosionNotification
     int mColumns;
     int mWidth;
     int mHight;
-    std::function<void ()> mOnGameOver;
+    
     
 };

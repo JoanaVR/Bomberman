@@ -19,7 +19,7 @@ GameObject::ObjectType Explosion::getType() const
 void Explosion::move()
 { 
     timer++;
-    if(timer > 100)
+    if(timer > 50)
     {
         setToRemove();
     }
