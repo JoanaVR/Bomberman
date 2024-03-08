@@ -68,6 +68,27 @@ const GameObject *Board::getObject(int index) const
 {
     return mGameObjects[index];
 }
+std::vector<GameObject*> Board::getAllCollisionsWithCell(int row, int column)
+{
+    std::vector<GameObject*> result = {}; 
+    
+    rava::traits::Rect cellRect;
+    cellRect.setX1(column*GameObject::cellSize);
+    cellRect.setX2(column*GameObject::cellSize + GameObject::cellSize);
+    cellRect.setY1(row*GameObject::cellSize);
+    cellRect.setY2(row*GameObject::cellSize + GameObject::cellSize);
+    for (int i = 0; i < mGameObjects.size(); i++)
+    {
+        rava::traits::Rect objectRect;
+        mGameObjects[i]->getNextMoveRectangle(objectRect);
+        if (objectRect.intersect(cellRect))
+        {
+            result.push_back(mGameObjects[i]);
+        }
+    }
+    return result;
+}
+
 
 Player *Board::getPlayer()
 {

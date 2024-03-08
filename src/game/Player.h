@@ -25,8 +25,8 @@ class Player: public GameObject
     State getState() const;
     void accept(IGameObjectVisitor* visitor) const override;
     virtual void setDirection(Direction direction) override;
-
-
+    int getSkinID() const;
+    void setSkinID(int ID);
 
     private:
     int mLives;
@@ -35,6 +35,6 @@ class Player: public GameObject
     State mState;
     int mTimer;
     Explosion* mExplosionColidedWith;
-
+    int mSkinID;
     
 };

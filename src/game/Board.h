@@ -23,6 +23,7 @@ class Board: public BombExplosionNotification
     void addObject(GameObject* object);
     int getGameObjectsSize() const;
     const GameObject* getObject(int index) const;
+    std::vector<GameObject*> getAllCollisionsWithCell(int row, int column);
     GameObject::ObjectType getObjectType(int row, int column);
     Player* getPlayer();
     std::vector<std::pair<GameObject*, GameObject*>> findCollisions();

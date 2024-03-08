@@ -12,15 +12,26 @@ Player::Player(int row, int column) : GameObject(row, column)
     mTimer = 0;
     mState = NORMAL;
     mExplosionColidedWith = nullptr;
+    mSkinID =0;
 }
 
 Player::~Player()
 {
 }
 
+int Player::getSkinID() const
+{
+    return mSkinID;
+}
+
+void Player::setSkinID(int ID)
+{
+    mSkinID = ID;
+}
+
 Bomb *Player::placingBomb(BombExplosionNotification *notifier)
 {
-    if (mBomb == nullptr)
+    if (mBomb == nullptr )
     {
         Bomb *bomb = new Bomb(getRow(), getColumn(), notifier, 2);
         mBomb = bomb;
@@ -63,7 +74,7 @@ void Player::collision(GameObject *object)
         if(mExplosionColidedWith != object)
         {
             //ensure that we stop on the same coordinates as the explosion
-            if(!isNextStepDifferentCell())
+            if(!isNextStepDifferentCell() && mState != DYEING)
             {
                 mExplosionColidedWith = (Explosion*)object;
                 mState = DYEING;
@@ -77,6 +88,10 @@ void Player::collision(GameObject *object)
     {
         if (!isMyBomb(object))
             forceStopObject();
+    }
+    else if (object->getType() == GameObject::PLAYER)
+    {
+        //they can pass through each other
     }
     else
     {
