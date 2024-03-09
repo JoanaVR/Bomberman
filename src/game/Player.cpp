@@ -33,7 +33,13 @@ Bomb *Player::placingBomb(BombExplosionNotification *notifier)
 {
     if (mBomb == nullptr )
     {
-        Bomb *bomb = new Bomb(getRow(), getColumn(), notifier, 2);
+        Bomb *bomb;
+        if(mDirection == UP  && mIsMoving)
+            bomb = new Bomb(getRow() +1, getColumn(), notifier, 2);
+        else if(mDirection == LEFT && mIsMoving)
+            bomb = new Bomb(getRow(), getColumn() +1, notifier, 2);
+        else
+            bomb = new Bomb(getRow(), getColumn(), notifier, 2);
         mBomb = bomb;
         return bomb;
     }
@@ -87,15 +93,14 @@ void Player::collision(GameObject *object)
     else if (object->getType() == GameObject::BOMB)
     {
         if (!isMyBomb(object))
+        {
+            object->setDirection(mDirection);
             forceStopObject();
-    }
-    else if (object->getType() == GameObject::PLAYER)
-    {
-        //they can pass through each other
+        }
     }
     else
     {
-        forceStopObject();
+        GameObject::collision(object);
     }
 }
 

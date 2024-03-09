@@ -27,9 +27,9 @@ TEST(LevelTest, test_serialiserEmptyBoard)
 TEST(LevelTest, test_serialiser)
 {
     Board b(2,2);
-    Block block1(true, 0,1);
+    Block block1(true, 0,1, PowerUp::NO_POWERUP, &b);
     b.addObject(&block1);
-    Block block2(false, 1, 1);
+    Block block2(false, 1, 1, PowerUp::NO_POWERUP, &b);
     b.addObject(&block2);
     Player p(1,0);
     b.addObject(&p);

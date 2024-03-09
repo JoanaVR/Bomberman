@@ -7,9 +7,9 @@
 TEST(Board, test_findCollisions)
 {
     Board b(2, 2);
-    Block block1(true, 0, 0);
+    Block block1(true, 0, 0, PowerUp::NO_POWERUP, &b);
     b.addObject(&block1);
-    Block block2(false, 0, 1);
+    Block block2(false, 0, 1, PowerUp::NO_POWERUP, &b);
     b.addObject(&block2);
     Player p(1, 0);
     b.addObject(&p);
@@ -28,9 +28,9 @@ TEST(Board, test_move)
     */
     Level l;
     Board b(3, 3);
-    Block block1(true, 0, 0);
+    Block block1(true, 0, 0, PowerUp::NO_POWERUP, &b);
     b.addObject(&block1);
-    Block block2(false, 0, 1);
+    Block block2(false, 0, 1, PowerUp::NO_POWERUP, &b);
     b.addObject(&block2);
     Player p(2, 0);
     p.setSpeed(20);
@@ -45,9 +45,9 @@ TEST(Board, test_eraseBlock)
 {
     Level l;
     Board b(3, 3);
-    Block *block1 = new Block(true, 0, 0);
+    Block *block1 = new Block(true, 0, 0, PowerUp::NO_POWERUP, &b);
     b.addObject(block1);
-    Block *block2 = new Block(false, 0, 1);
+    Block *block2 = new Block(false, 0, 1, PowerUp::NO_POWERUP, &b);
     b.addObject(block2);
     EXPECT_EQ(b.getGameObjectsSize(), 2);
     b.removeObject(0, 0);
@@ -58,11 +58,11 @@ TEST(Board, test_explodeBombHorizontally)
 {
     Level l;
     Board b(5, 5);
-    Block *block1 = new Block(true, 2, 0);
+    Block *block1 = new Block(true, 2, 0, PowerUp::NO_POWERUP, &b);
     b.addObject(block1);
-    Block *block2 = new Block(false, 2, 3);
+    Block *block2 = new Block(false, 2, 3, PowerUp::NO_POWERUP, &b);
     b.addObject(block2);
-    Block *block3 = new Block(true, 2, 4);
+    Block *block3 = new Block(true, 2, 4, PowerUp::NO_POWERUP, &b);
     b.addObject(block3);
     EXPECT_EQ(b.getGameObjectsSize(), 3);
     Bomb* bomb = new Bomb(2,2,&b,3);
@@ -76,9 +76,9 @@ TEST(Board, test_explodeBombVertically)
 {
     Level l;
     Board b(5, 5);
-    Block *block1 = new Block(true, 0, 3);
+    Block *block1 = new Block(true, 0, 3, PowerUp::NO_POWERUP, &b);
     b.addObject(block1);
-    Block *block2 = new Block(true, 3, 3);
+    Block *block2 = new Block(true, 3, 3, PowerUp::NO_POWERUP, &b);
     b.addObject(block2);
     EXPECT_EQ(b.getGameObjectsSize(), 2);
     Bomb* bomb = new Bomb(2,3,&b,2);
@@ -92,9 +92,9 @@ TEST(Board, test_placeBomb)
 {
     Level l;
     Board b(5, 5);
-    Block *block1 = new Block(true, 0, 3);
+    Block *block1 = new Block(true, 0, 3, PowerUp::NO_POWERUP, &b);
     b.addObject(block1);
-    Block *block2 = new Block(true, 3, 3);
+    Block *block2 = new Block(true, 3, 3, PowerUp::NO_POWERUP, &b);
     b.addObject(block2);
     EXPECT_EQ(b.getGameObjectsSize(), 2);
     Player p(2, 3);
@@ -220,7 +220,7 @@ TEST(Board, test_playerCornerTurning)
     Board b(5, 5);
     Player *player = new Player(4, 4);
     b.addObject(player);
-    Block *block1 = new Block(true, 3, 2);
+    Block *block1 = new Block(true, 3, 2, PowerUp::NO_POWERUP, &b);
     b.addObject(block1);
     player->setDirection(GameObject::UP);
     b.move();

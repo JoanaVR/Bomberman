@@ -6,9 +6,10 @@
 #include "Blocks.h"
 #include "Player.h"
 #include "Bomb.h"
+#include "BombExplosionNotification.h"
+#include "BlockToPowerUpNotification.h"
 
-
-class Board: public BombExplosionNotification
+class Board: public BombExplosionNotification, public BlockToPowerUpNotification
 {
     public:
 
@@ -33,6 +34,7 @@ class Board: public BombExplosionNotification
     void removeObject(GameObject* object);
     bool isObjectInBombRadius(int bombRow, int bombColumn, int explosionRadius, int objectRow, int objectColumn);
     void explode(Bomb* bomb) override;
+    void createPowerUp(Block* block, Explosion* explsion) override;
 
     private:
     std::vector<GameObject*> mGameObjects;

@@ -9,6 +9,7 @@ Bomb::Bomb(int row, int column, BombExplosionNotification* n, int explosionRadiu
     mTimer = 0;
     mExplosionRadius = explosionRadius;
     mExplosionStartedTimer = -1;
+    mHaveMoved = false;
 }
 
 
@@ -39,6 +40,16 @@ void Bomb::move()
     GameObject::move();
 }
 
+void Bomb::setDirection(Direction direction)
+{
+    if(!mHaveMoved)
+    {
+        GameObject::setDirection(direction);
+        mHaveMoved = true;
+    }
+}
+
+
 void Bomb::collision(GameObject *object)
 {
     if (object->getType() == GameObject::EXPLOSION)
@@ -49,7 +60,7 @@ void Bomb::collision(GameObject *object)
     }
     else
     {
-        forceStopObject();
+        GameObject::collision(object);
     }
 }
 

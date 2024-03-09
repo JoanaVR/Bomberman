@@ -26,10 +26,24 @@ std::string Level::serialize(const Board &board)
             object->SetAttribute("cell_type", "player");
             break;
         case GameObject::ObjectType::BLOCK:
+        {
             object->SetAttribute("cell_type", "block");
-            break;
+            PowerUp::PowerUpType type = dynamic_cast<const Block *>(currentObject)->getPowerUpType();
+            if (type == PowerUp::NO_POWERUP)
+                object->SetAttribute("powerup_type", "no_powerup");
+            else if (type == PowerUp::ENHANCE_EPLOSION)
+                object->SetAttribute("powerup_type", "enhance_explosion");
+            else if (type == PowerUp::INCREASE_PLAYER_SPEED)
+                object->SetAttribute("powerup_type", "increase_player_speed");
+            else if (type == PowerUp::KICK_BOMB)
+                object->SetAttribute("powerup_type", "kick_bomb");
+            else if (type == PowerUp::PLACE_MULTIPLE_BOMBS)
+                object->SetAttribute("powerup_type", "palce_multiple_bombs");
+        }
+        break;
         case GameObject::ObjectType::UNBREAKABLE_BLOCK:
             object->SetAttribute("cell_type", "unbreakable_block");
+            object->SetAttribute("powerup_type", "no_powerup");
             break;
         case GameObject::ObjectType::POWERUP:
             object->SetAttribute("cell_type", "powerup");
@@ -56,7 +70,7 @@ std::string Level::serialize(const Board &board)
     return std::string(myPrinter.CStr());
 }
 
-bool Level::deserialize(const std::string &xmlText, Board &b, std::vector<Player*> &players)
+bool Level::deserialize(const std::string &xmlText, Board &b, std::vector<Player *> &players)
 {
     tinyxml2::XMLDocument doc;
     doc.Parse(xmlText.data(), xmlText.size());
@@ -89,10 +103,10 @@ bool Level::deserialize(const std::string &xmlText, Board &b, std::vector<Player
     for (tinyxml2::XMLElement *object = doc.RootElement()->FirstChildElement(); object; object = object->NextSiblingElement())
     {
         attribute = object->Attribute("cell_type");
-        const char* objectRowChar =  object->Attribute("rows");
-        const char* objectColumnChar = object->Attribute("columns");
-        int objectRow =  std::stoi(objectRowChar);
-        int objectColumn =  std::stoi(objectColumnChar);
+        const char *objectRowChar = object->Attribute("rows");
+        const char *objectColumnChar = object->Attribute("columns");
+        int objectRow = std::stoi(objectRowChar);
+        int objectColumn = std::stoi(objectColumnChar);
 
         if (attribute)
         {
@@ -108,13 +122,34 @@ bool Level::deserialize(const std::string &xmlText, Board &b, std::vector<Player
             }
             else if (std::strcmp(attribute, "block") == 0)
             {
-                Block *b = new Block(true, objectRow, objectColumn);
-                resultBoard.addObject(b);
+                const char *powerup = object->Attribute("powerup_type");
+                Block *block;
+                if (setRamdomPowerUp)
+                {
+                    block = new Block(true, objectRow, objectColumn, (PowerUp::PowerUpType)(rand()%(PowerUp::NO_POWERUP+1)), &b);
+                }
+                else
+                {
+                    if (powerup)
+                    {
+                        if (std::strcmp(powerup, "enhance_explosion") == 0)
+                            block = new Block(true, objectRow, objectColumn, PowerUp::ENHANCE_EPLOSION, &b);
+                        else if (std::strcmp(powerup, "increase_player_speed") == 0)
+                            block = new Block(true, objectRow, objectColumn, PowerUp::INCREASE_PLAYER_SPEED, &b);
+                        else if (std::strcmp(powerup, "kick_bomb") == 0)
+                            block = new Block(true, objectRow, objectColumn, PowerUp::KICK_BOMB, &b);
+                        else if (std::strcmp(powerup, "palce_multiple_bombs") == 0)
+                            block = new Block(true, objectRow, objectColumn, PowerUp::PLACE_MULTIPLE_BOMBS, &b);
+                    }
+                    else
+                        block = new Block(true, objectRow, objectColumn, PowerUp::NO_POWERUP, &b);
+                }
+                resultBoard.addObject(block);
             }
             else if (std::strcmp(attribute, "unbreakable_block") == 0)
             {
-                Block *b = new Block(false, objectRow, objectColumn);
-                resultBoard.addObject(b);
+                Block *block = new Block(false, objectRow, objectColumn, PowerUp::NO_POWERUP, &b);
+                resultBoard.addObject(block);
             }
             else if (std::strcmp(attribute, "powerup") == 0)
             {
@@ -122,8 +157,8 @@ bool Level::deserialize(const std::string &xmlText, Board &b, std::vector<Player
             }
             else if (std::strcmp(attribute, "bomb") == 0)
             {
-                //Bomb *bomb = new Bomb(objectRow, objectColumn, );
-                //resultBoard.addObject(bomb);
+                // Bomb *bomb = new Bomb(objectRow, objectColumn, );
+                // resultBoard.addObject(bomb);
             }
         }
     }

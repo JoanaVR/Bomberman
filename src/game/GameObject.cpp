@@ -192,7 +192,8 @@ void GameObject::setSpeed(int speed)
 
 void GameObject::collision(GameObject* object)
 {
-    forceStopObject();
+    if(!object->canPassThrough() || !canPassThrough())
+        forceStopObject();
 }
 
 void GameObject::alignObjectToNearestCell()

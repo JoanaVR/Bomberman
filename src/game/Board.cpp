@@ -6,6 +6,7 @@
 #include <thread>
 #include <chrono>
 #include "Explosion.h"
+#include "PowerUp.h"
 
 using namespace std;
 
@@ -176,8 +177,16 @@ void Board::move()
 
     for (size_t i = 0; i < collisions.size(); i++)
     {
-        collisions[i].first->collision(collisions[i].second);
-        collisions[i].second->collision(collisions[i].first);
+        if(collisions[i].first->getType()== GameObject::BOMB)
+        {
+            collisions[i].first->collision(collisions[i].second);
+            collisions[i].second->collision(collisions[i].first);
+        }
+        else
+        {
+            collisions[i].second->collision(collisions[i].first);
+            collisions[i].first->collision(collisions[i].second);
+        }
     }
 
     for (size_t i = 0; i < mGameObjects.size(); i++)
@@ -340,4 +349,12 @@ void Board::explode(Bomb* bomb)
             break;
     }
 }
+
+void Board::createPowerUp(Block* block, Explosion* explsion)
+{
+    PowerUp* p = new PowerUp(block->getRow(), block->getColumn(), block->getPowerUpType());
+    p->setExplosion(explsion);
+    addObject(p);
+}
+
 

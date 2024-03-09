@@ -72,6 +72,7 @@ src/game/Level.cpp
 src/game/Player.cpp
 src/game/GameObject.cpp
 src/game/Explosion.cpp
+src/game/PowerUp.cpp
 
 src/gameDraw/DrawObject.cpp
 src/gameDraw/GameDrawer.cpp
