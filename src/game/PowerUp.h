@@ -18,6 +18,8 @@ class PowerUp : public GameObject
     GameObject::ObjectType getType() const override; 
     void collision(GameObject* object) override;
     void setExplosion(Explosion* explosion);
+    PowerUpType getPowerUpType() const;
+    void accept(IGameObjectVisitor* visitor) const override;
 
     private:
     PowerUpType mPowerUpType;

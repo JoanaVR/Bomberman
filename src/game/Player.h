@@ -31,10 +31,14 @@ class Player: public GameObject
     private:
     int mLives;
     GameObject* mBomb;
+    GameObject* mBombJustPlacedDown;
     bool isMyBomb(GameObject* bomb);
     State mState;
     int mTimer;
     Explosion* mExplosionColidedWith;
     int mSkinID;
+    int mKickBombPowerup;
+    int mSpeedPowerUpTimer;
+    int mEnhancedBombs;
     
 };

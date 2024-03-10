@@ -1,18 +1,24 @@
 #include "Player.h"
 #include "Bomb.h"
 #include "BombExplosionNotification.h"
+#include "PowerUp.h"
 
 using namespace std;
 
 Player::Player(int row, int column) : GameObject(row, column)
 {
     mCanPassThrough = true;
+    mIsMoving = false;
     mLives = 3;
     mBomb = nullptr;
+    mBombJustPlacedDown =  nullptr;
     mTimer = 0;
     mState = NORMAL;
     mExplosionColidedWith = nullptr;
-    mSkinID =0;
+    mSkinID = 0;
+    mKickBombPowerup = 0;
+    mSpeedPowerUpTimer =0;
+    mEnhancedBombs = 0;
 }
 
 Player::~Player()
@@ -31,16 +37,25 @@ void Player::setSkinID(int ID)
 
 Bomb *Player::placingBomb(BombExplosionNotification *notifier)
 {
-    if (mBomb == nullptr )
+    int bombRadius = 2;
+    if(mEnhancedBombs > 0)
+    {
+        bombRadius = 10;
+        mEnhancedBombs --;
+    }
+    if (mBomb == nullptr)
     {
         Bomb *bomb;
-        if(mDirection == UP  && mIsMoving)
-            bomb = new Bomb(getRow() +1, getColumn(), notifier, 2);
-        else if(mDirection == LEFT && mIsMoving)
-            bomb = new Bomb(getRow(), getColumn() +1, notifier, 2);
+        if (mDirection == UP && mIsMoving)
+            bomb = new Bomb(getRow() + 1, getColumn(), notifier, bombRadius);
+        else if (mDirection == LEFT && mIsMoving)
+            bomb = new Bomb(getRow(), getColumn() + 1, notifier, bombRadius);
         else
-            bomb = new Bomb(getRow(), getColumn(), notifier, 2);
+            bomb = new Bomb(getRow(), getColumn(), notifier, bombRadius);
         mBomb = bomb;
+        mBombJustPlacedDown = bomb;
+        //if there was a power up return bomb radius to normal after placing bomb
+        bombRadius = 2;
         return bomb;
     }
     return nullptr;
@@ -77,12 +92,12 @@ void Player::collision(GameObject *object)
 {
     if (object->getType() == GameObject::EXPLOSION)
     {
-        if(mExplosionColidedWith != object)
+        if (mExplosionColidedWith != object)
         {
-            //ensure that we stop on the same coordinates as the explosion
-            if(!isNextStepDifferentCell() && mState != DYEING)
+            // ensure that we stop on the same coordinates as the explosion
+            if (!isNextStepDifferentCell() && mState != DYEING)
             {
-                mExplosionColidedWith = (Explosion*)object;
+                mExplosionColidedWith = (Explosion *)object;
                 mState = DYEING;
                 reduceLives();
                 stopObject();
@@ -94,8 +109,29 @@ void Player::collision(GameObject *object)
     {
         if (!isMyBomb(object))
         {
+            if (mBombJustPlacedDown == object && mKickBombPowerup > 0)
+            {
             object->setDirection(mDirection);
+            mKickBombPowerup --;
+            }
             forceStopObject();
+        }        
+}
+    else if (object->getType() == GameObject::POWERUP)
+    {
+        switch (dynamic_cast<PowerUp *>(object)->getPowerUpType())
+        {
+        case PowerUp::KICK_BOMB:
+            mKickBombPowerup += 5;
+            break;
+        case PowerUp::INCREASE_PLAYER_SPEED:
+            mSpeedPowerUpTimer = 500;
+            break;
+        case PowerUp::ENHANCE_EPLOSION:
+            mEnhancedBombs ++;
+            break;
+        case PowerUp::PLACE_MULTIPLE_BOMBS:
+            break;
         }
     }
     else
@@ -107,7 +143,11 @@ void Player::collision(GameObject *object)
 void Player::setDirection(Direction direction)
 {
     if (mState == NORMAL)
+    {
         GameObject::setDirection(direction);
+        if(mSpeedPowerUpTimer >0)
+            mSpeed = mDefaultSpeed + 2;
+    }
 }
 
 void Player::move()
@@ -120,6 +160,7 @@ void Player::move()
     {
         mState = NORMAL;
     }
+    mSpeedPowerUpTimer --;
     GameObject::move();
     // check if player is still in same cell as placed bomb
     if (mBomb != nullptr)

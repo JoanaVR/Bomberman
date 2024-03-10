@@ -35,3 +35,13 @@ void PowerUp::setExplosion(Explosion* explosion)
 {
     mExplosion = explosion;
 }
+
+PowerUp::PowerUpType PowerUp::getPowerUpType() const
+{
+    return mPowerUpType;
+}
+
+void PowerUp::accept(IGameObjectVisitor *visitor) const
+{
+    visitor->visit(this);
+}

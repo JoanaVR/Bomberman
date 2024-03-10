@@ -3,6 +3,7 @@
 #include <traits.h>
 #include "Draw2DTextureManager.h"
 #include "game/Player.h"
+#include "game/PowerUp.h"
 
 namespace draw
 {
@@ -33,9 +34,6 @@ namespace draw
             break;
         case GameObject::BOMB:
             rava::draw2D::TextureManager::blendGlyphItem(renderer, "bomb", rectangleToDraw.get_size(), rectangleToDraw.x1_y1(), false);
-            break;
-        case GameObject::POWERUP:
-            rava::draw2D::TextureManager::blendGlyphItem(renderer, "125", rectangleToDraw.get_size(), rectangleToDraw.x1_y1(), false);
             break;
         case GameObject::EXPLOSION:
             rava::draw2D::TextureManager::blendGlyphItem(renderer, "explosion", rectangleToDraw.get_size(), rectangleToDraw.x1_y1(), false);
@@ -68,5 +66,24 @@ namespace draw
             rava::draw2D::TextureManager::blendGlyphItem(mRenderer, "player", rectangleToDraw.get_size(), rectangleToDraw.x1_y1(), false);
         //draw(mRenderer, (GameObject*)player, mDisplayRect, mXRatio, mYRatio);
     }
+
+    void DrawObject::visit(const PowerUp *powerUp)
+    {
+        rava::traits::Rect boundingRect;
+        powerUp->getRectangle(boundingRect);
+
+        rava::traits::Rect rectangleToDraw(boundingRect.x1() * mXRatio + mDisplayRect.x1(), boundingRect.y1() * mYRatio + mDisplayRect.y1(), boundingRect.x2() * mXRatio + mDisplayRect.x1(), boundingRect.y2() * mYRatio + mDisplayRect.y1());
+        PowerUp::PowerUpType type = powerUp->getPowerUpType();
+            if(type == PowerUp::KICK_BOMB)
+                rava::draw2D::TextureManager::blendGlyphItem(mRenderer, "kickBombPowerUp", rectangleToDraw.get_size(), rectangleToDraw.x1_y1(), false);
+            else if(type == PowerUp::INCREASE_PLAYER_SPEED)
+                rava::draw2D::TextureManager::blendGlyphItem(mRenderer, "increasePlayerSpeedPowerUp", rectangleToDraw.get_size(), rectangleToDraw.x1_y1(), false);
+            else if(type == PowerUp::ENHANCE_EPLOSION)
+                rava::draw2D::TextureManager::blendGlyphItem(mRenderer, "enhanceExplosionPowerUp", rectangleToDraw.get_size(), rectangleToDraw.x1_y1(), false);
+            else if(type == PowerUp::PLACE_MULTIPLE_BOMBS)
+                rava::draw2D::TextureManager::blendGlyphItem(mRenderer, "placeMultipleBombsPowerUp", rectangleToDraw.get_size(), rectangleToDraw.x1_y1(), false);    
+    }
+
+
 
 }
