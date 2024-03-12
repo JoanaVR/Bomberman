@@ -42,6 +42,7 @@ ${gtest_dir}/src/gtest-all.cc
 ../src/game/Bomb.cpp
 ../src/game/Explosion.cpp
 ../src/game/PowerUp.cpp
+../src/game/Enemy.cpp
 
 main.cpp
 TestBoard.cpp

@@ -13,6 +13,7 @@
 #include "GUI/game/game_screen.h"
 #include "Utils/GuiFactory.h"
 #include "game/Level.h"
+#include "game/Enemy.h"
 
 #include <thread>
 #include "GUI/game/game_over_screen.h"
@@ -90,6 +91,9 @@ void Application::newGame()
 	mGame.reset(new Game(level, [this](){onGameOver();}));
 	
 	mGameDrawer.reset(new draw::GameDrawer(mGame->getBoard()));
+
+	auto* enemy = new Enemy(mGame.get(), 1);
+	mGame->addEnemy(enemy);
 }
 
 void Application::onGameOver()

@@ -19,6 +19,7 @@ Player::Player(int row, int column) : GameObject(row, column)
     mKickBombPowerup = 0;
     mSpeedPowerUpTimer =0;
     mEnhancedBombs = 0;
+    mIsEnemy = false;
 }
 
 Player::~Player()
@@ -33,6 +34,16 @@ int Player::getSkinID() const
 void Player::setSkinID(int ID)
 {
     mSkinID = ID;
+}
+
+void Player::setEnemy(bool isEnemy)
+{
+    mIsEnemy = isEnemy;
+}
+
+bool Player::isEnemy()
+{
+    return mIsEnemy;
 }
 
 Bomb *Player::placingBomb(BombExplosionNotification *notifier)
@@ -128,11 +139,23 @@ void Player::collision(GameObject *object)
             mSpeedPowerUpTimer = 500;
             break;
         case PowerUp::ENHANCE_EPLOSION:
-            mEnhancedBombs ++;
+            mEnhancedBombs += 3;
             break;
         case PowerUp::PLACE_MULTIPLE_BOMBS:
             break;
         }
+    }
+    else if (object->getType() == GameObject::PLAYER)
+    {
+        if(dynamic_cast<Player*> (object)->isEnemy() && mState != DYEING)
+        {
+            mState = DYEING;
+                reduceLives();
+                stopObject();
+                mTimer = 100;
+        }
+        else
+            GameObject::collision(object);
     }
     else
     {

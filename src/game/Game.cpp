@@ -39,6 +39,17 @@ void Game::move()
         mOnGameOver();
     }
     mBoard->move();
+
+    for(int i = 0 ; i < mEnemies.size(); i++)
+    {
+        int currentPlayerID = mEnemies[i]->getPlayerID();
+        bool status;
+        if(mPlayers[currentPlayerID]->getSpeed() == 0)
+            status = false;
+        else
+            status = true;
+        mEnemies[i]->undateState(status);
+    }
 }
 
 void Game::keyboardEvent(int key, int scancode, int action, int modifiers)
@@ -52,20 +63,6 @@ void Game::keyboardEvent(int key, int scancode, int action, int modifiers)
                                                      {K_s, false},
                                                      {K_d, false},
                                                      {K_a, false}};
-
-    auto placeBomb = [this](int playerIndex){
-        //check if bomb can be placed in the board at the wanted place, no collisions
-        std::vector<GameObject*> objectsInCell = mBoard->getAllCollisionsWithCell(mPlayers[playerIndex]->getRow(), mPlayers[playerIndex]->getColumn());
-        if(objectsInCell.size() == 0 || (objectsInCell.size() == 1 && objectsInCell[0] == mPlayers[playerIndex]))
-        {
-            Bomb *bomb = mPlayers[playerIndex]->placingBomb(mBoard);
-            //we can only place bomb if there is nothing for it to colide with
-            if (bomb)
-            {
-                addObject(bomb);
-            }
-        }
-    };
 
     if (action == PRESSED)
     {
@@ -197,4 +194,55 @@ void Game::keyboardEvent(int key, int scancode, int action, int modifiers)
         if (!havePressedDirectionPlayer2)
             mPlayers[1]->stopObject();
     }
+}
+
+
+void Game::move (int playerID, GameObject::Direction directio)
+{
+    if(playerID >=0 && playerID < mPlayers.size())
+    {
+        mPlayers[playerID]->setDirection(directio);
+        mPlayers[playerID]->setEnemy(true);
+    }
+}
+    
+void Game::stop (int playerID)
+{
+    if(playerID >=0 && playerID < mPlayers.size())
+        mPlayers[playerID]->stopObject();
+}
+    
+void Game::placeBomb (int playerID)
+{
+    if(playerID >=0 && playerID < mPlayers.size())
+    {
+        //check if bomb can be placed in the board at the wanted place, no collisions
+        std::vector<GameObject*> objectsInCell;
+        if(mPlayers[playerID]->getDirection() == GameObject::UP && mPlayers[playerID]->getSpeed() > 0)
+        {
+            objectsInCell = mBoard->getAllCollisionsWithCell(mPlayers[playerID]->getRow()+1, mPlayers[playerID]->getColumn());
+        }
+        else if(mPlayers[playerID]->getDirection() == GameObject::LEFT && mPlayers[playerID]->getSpeed() > 0)
+        {
+            objectsInCell = mBoard->getAllCollisionsWithCell(mPlayers[playerID]->getRow(), mPlayers[playerID]->getColumn()+1);
+        }
+        else
+            objectsInCell = mBoard->getAllCollisionsWithCell(mPlayers[playerID]->getRow(), mPlayers[playerID]->getColumn());
+        if(objectsInCell.size() == 0 || (objectsInCell.size() == 1 && objectsInCell[0] == mPlayers[playerID]))
+        {
+            Bomb *bomb = mPlayers[playerID]->placingBomb(mBoard);
+            //we can only place bomb if there is nothing for it to colide with
+            if (bomb)
+            {
+                addObject(bomb);
+            }
+        }
+    }
+    else
+        LOG_ERROR("player index invalid %d", playerID);
+}
+
+void Game::addEnemy(IEnemy* enemy)
+{
+    mEnemies.push_back(enemy);
 }

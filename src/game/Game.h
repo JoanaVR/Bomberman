@@ -2,10 +2,12 @@
 
 #include "Board.h"
 #include "Player.h"
+#include "IPlayerControl.h"
+#include "IEnemy.h"
 
 #include <vector>
 
-class Game
+class Game : public IPlayerControl
 {
 public:
     enum Keys
@@ -36,9 +38,14 @@ public:
     Board *getBoard();
     void keyboardEvent(int key, int scancode, int action, int modifiers);
     void move();
+    void move (int playerID, GameObject::Direction directio) override;
+    void stop (int playerID) override;
+    void placeBomb (int playerID) override;
+    void addEnemy(IEnemy* enemy);
 
 private:
     Board *mBoard;
     std::vector<Player *> mPlayers;
     std::function<void ()> mOnGameOver;
+    std::vector<IEnemy*> mEnemies;
 };

@@ -45,6 +45,7 @@ void Bomb::setDirection(Direction direction)
     if(!mHaveMoved)
     {
         GameObject::setDirection(direction);
+        mSpeed = mDefaultSpeed + 3;
         mHaveMoved = true;
     }
 }

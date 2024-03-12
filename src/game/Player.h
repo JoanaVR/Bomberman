@@ -27,6 +27,8 @@ class Player: public GameObject
     virtual void setDirection(Direction direction) override;
     int getSkinID() const;
     void setSkinID(int ID);
+    void setEnemy(bool isEnemy);
+    bool isEnemy();
 
     private:
     int mLives;
@@ -40,5 +42,6 @@ class Player: public GameObject
     int mKickBombPowerup;
     int mSpeedPowerUpTimer;
     int mEnhancedBombs;
+    bool mIsEnemy;
     
 };
