@@ -36,7 +36,6 @@ public:
     Game(const std::string &level, std::function<void ()> onGameOver = nullptr);
     void addObject(GameObject *object);
     Board *getBoard();
-    void keyboardEvent(int key, int scancode, int action, int modifiers);
     void move();
     void move (int playerID, GameObject::Direction directio) override;
     void stop (int playerID) override;

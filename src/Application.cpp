@@ -94,6 +94,10 @@ void Application::newGame()
 
 	auto* enemy = new Enemy(mGame.get(), 1);
 	mGame->addEnemy(enemy);
+	Player* player = new Player(0,1);
+	mGame->addObject(player);
+	auto* enemy2 = new Enemy(mGame.get(), 2);
+	mGame->addEnemy(enemy2);
 }
 
 void Application::onGameOver()

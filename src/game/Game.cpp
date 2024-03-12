@@ -19,6 +19,8 @@ Game::Game(const std::string &level, std::function<void()> onGameOver)
 void Game::addObject(GameObject *object)
 {
     mBoard->addObject(object);
+    if(object->getType() == GameObject::PLAYER)
+        mPlayers.push_back(dynamic_cast<Player*>(object));
 }
 
 Board *Game::getBoard()
@@ -52,164 +54,22 @@ void Game::move()
     }
 }
 
-void Game::keyboardEvent(int key, int scancode, int action, int modifiers)
-{
-    static std::map<int, bool> currentKeysPlayer1 = {{K_UP, false},
-                                                     {K_DOWN, false},
-                                                     {K_RIGHT, false},
-                                                     {K_LEFT, false}};
-
-    static std::map<int, bool> currentKeysPlayer2 = {{K_w, false},
-                                                     {K_s, false},
-                                                     {K_d, false},
-                                                     {K_a, false}};
-
-    if (action == PRESSED)
-    {
-        LOG_MIL("keyboardEvent pressed, key: %d", key);
-        switch (key)
-        {
-        case K_UP:
-        {
-            currentKeysPlayer1[key] = true;
-
-            mPlayers[0]->setDirection(GameObject::UP);
-        }
-        break;
-        case K_DOWN:
-        {
-            currentKeysPlayer1[key] = true;
-            mPlayers[0]->setDirection(GameObject::DOWN);
-        }
-        break;
-        case K_RIGHT:
-        {
-            currentKeysPlayer1[key] = true;
-            mPlayers[0]->setDirection(GameObject::RIGHT);
-        }
-        break;
-        case K_LEFT:
-        {
-            currentKeysPlayer1[key] = true;
-            mPlayers[0]->setDirection(GameObject::LEFT);
-        }
-        break;
-        case K_ENTER:
-        {
-            placeBomb(0);
-        }
-        break;
-        case K_w:
-        {
-            currentKeysPlayer2[key] = true;
-            mPlayers[1]->setDirection(GameObject::UP);
-        }
-        break;
-        case K_s:
-        {
-            currentKeysPlayer2[key] = true;
-            mPlayers[1]->setDirection(GameObject::DOWN);
-        }
-        break;
-        case K_d:
-        {
-            currentKeysPlayer2[key] = true;
-            mPlayers[1]->setDirection(GameObject::RIGHT);
-        }
-        break;
-        case K_a:
-        {
-            currentKeysPlayer2[key] = true;
-            mPlayers[1]->setDirection(GameObject::LEFT);
-        }
-        break;
-        case K_SPACE:
-        {
-            placeBomb(1);
-        }
-        break;
-        default:
-            break;
-        }
-    }
-    else if (action == RELEASED)
-    {
-        switch (key)
-        {
-        case K_UP:
-        {
-            currentKeysPlayer1[key] = false;
-        }
-        break;
-        case K_DOWN:
-        {
-            currentKeysPlayer1[key] = false;
-        }
-        break;
-        case K_RIGHT:
-        {
-            currentKeysPlayer1[key] = false;
-        }
-        break;
-        case K_LEFT:
-        {
-            currentKeysPlayer1[key] = false;
-        }
-        break;
-        case K_w:
-        {
-            currentKeysPlayer2[key] = false;
-        }
-        break;
-        case K_s:
-        {
-            currentKeysPlayer2[key] = false;
-        }
-        break;
-        case K_d:
-        {
-            currentKeysPlayer2[key] = false;
-        }
-        break;
-        case K_a:
-        {
-            currentKeysPlayer2[key] = false;
-        }
-        break;
-        }
-        LOG_MIL("keyboardEvent RELESED, key: %d", key);
-        bool havePressedDirectionPlayer1 = false;
-        for (auto &i : currentKeysPlayer1)
-        {
-            havePressedDirectionPlayer1 |= i.second;
-        }
-        if (!havePressedDirectionPlayer1)
-            mPlayers[0]->stopObject();
-
-        bool havePressedDirectionPlayer2 = false;
-        for (auto &i : currentKeysPlayer2)
-        {
-            havePressedDirectionPlayer2 |= i.second;
-        }
-        if (!havePressedDirectionPlayer2)
-            mPlayers[1]->stopObject();
-    }
-}
-
 
 void Game::move (int playerID, GameObject::Direction directio)
 {
     if(playerID >=0 && playerID < mPlayers.size())
     {
         mPlayers[playerID]->setDirection(directio);
-        mPlayers[playerID]->setEnemy(true);
+        //mPlayers[playerID]->setEnemy(true);
     }
 }
     
 void Game::stop (int playerID)
 {
     if(playerID >=0 && playerID < mPlayers.size())
+    {
         mPlayers[playerID]->stopObject();
+    }
 }
     
 void Game::placeBomb (int playerID)
