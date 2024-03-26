@@ -16,6 +16,12 @@ Game::Game(const std::string &level, std::function<void()> onGameOver)
         mPlayers[1]->setSkinID(1);
 }
 
+const Player* Game::getPlayer (int playerID) const
+{
+    return mPlayers[playerID];
+}
+
+
 void Game::addObject(GameObject *object)
 {
     mBoard->addObject(object);

@@ -199,18 +199,6 @@ void Board::move()
     mGameObjects.erase(it, mGameObjects.end());
 }
 
-void Board::removeObject(int row, int column)
-{
-    for (int i = 0; i < mGameObjects.size(); i++)
-    {
-        if (mGameObjects[i]->getRow() == row && mGameObjects[i]->getColumn() == column)
-        {
-            delete mGameObjects[i];
-            mGameObjects.erase(mGameObjects.begin() + i);
-            break;
-        }
-    }
-}
 
 void Board::removeObject(GameObject* object)
 {

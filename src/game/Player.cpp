@@ -17,7 +17,7 @@ Player::Player(int row, int column) : GameObject(row, column)
     mExplosionColidedWith = nullptr;
     mSkinID = 0;
     mKickBombPowerup = 0;
-    mSpeedPowerUpTimer =0;
+    mSpeedPowerUpTimer = 0;
     mEnhancedBombs = 0;
     mIsEnemy = false;
 }
@@ -77,7 +77,7 @@ GameObject::ObjectType Player::getType() const
     return PLAYER;
 }
 
-int Player::getLives()
+int Player::getLives() const
 {
     return mLives;
 }
@@ -204,4 +204,15 @@ void Player::move()
 void Player::accept(IGameObjectVisitor *visitor) const
 {
     visitor->visit(this);
+}
+
+
+int Player::getKimkBombPowerUpNumber()const
+{
+    return mKickBombPowerup;
+}
+
+int Player::getEnhancedBombPowerUpNumber()const
+{
+    return mEnhancedBombs;
 }

@@ -50,7 +50,7 @@ TEST(Board, test_eraseBlock)
     Block *block2 = new Block(false, 0, 1, PowerUp::NO_POWERUP, &b);
     b.addObject(block2);
     EXPECT_EQ(b.getGameObjectsSize(), 2);
-    b.removeObject(0, 0);
+    b.removeObject(block1);
     EXPECT_EQ(b.getGameObjectsSize(), 1);
 }
 

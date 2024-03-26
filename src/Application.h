@@ -43,7 +43,7 @@ public:
 	
 
 	
-    void newGame ();
+    void newGame (bool isMultiplayer);
 	void onGameOver();
 
 
@@ -56,8 +56,6 @@ public:
 	int	mScreenW; 
 	int mScreenH;
 	std::shared_ptr<draw::GameDrawer> mGameDrawer;
-	Player* mPlayer;
-	Player* mPlayerTwo;
 	std::shared_ptr<Game> mGame;
 
 private:

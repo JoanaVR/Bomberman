@@ -20,6 +20,7 @@
 #include <Draw2DTextureManager.h>
 #include "game/Board.h"
 #include "GUI/game/BoardWidget.h"
+#include "GUI/game/PlayerPowerUpsWidget.h"
 #include "GUI/draw_strategies_ids.hpp"
 
 
@@ -178,6 +179,8 @@ namespace rava::gui
 
         virtual void draw(SDL_Renderer *renderer);
         void onResize(int newScreenW, int newScreenH) override;
+        void setPowerUp(int playerID);
+
 
     private:
         void btnClick(int btnId);
@@ -187,6 +190,7 @@ namespace rava::gui
 	    std::shared_ptr< TabButtonType > m_menuTabButton;
 
         std::shared_ptr<draw::BoardWidget> mBoardWidget;
+        std::shared_ptr<draw::PlayerPowerUpsWidget> m_PowerUpWidget;
 
         SDL_Renderer *m_renderer;
         

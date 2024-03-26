@@ -17,7 +17,7 @@ namespace rava::gui {
 
         std::shared_ptr<rava::gui::Widget> next(new rava::gui::Button("Next", [] { 
 				std::cout << "Next pushed!" << std::endl; 
-				Application::getInstance()->newGame();
+				Application::getInstance()->newGame(false);
 				Application::getInstance()->closeCurrentDialog();
 			}));
        

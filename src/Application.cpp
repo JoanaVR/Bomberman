@@ -14,6 +14,7 @@
 #include "Utils/GuiFactory.h"
 #include "game/Level.h"
 #include "game/Enemy.h"
+#include "game/Generator.h"
 
 #include <thread>
 #include "GUI/game/game_over_screen.h"
@@ -57,8 +58,9 @@ Application::Application(SDL_Renderer *ren, SDL_Window *w, int screenW, int scre
 {
 	mScreenW = screenW;
 	mScreenH = screenH;
+
 	// m_board.reset(new Board(5,5));
-	newGame();
+	
 }
 
 void rava::app::destroyApplication(AppBase *app)
@@ -78,14 +80,16 @@ void Application::onSizeChange(int screenW, int screenH)
 	mScreenH = screenH;
 	utils::GuiFactory::load(screenW, screenH);
 	m_gameScreen->onResize(screenW, screenH);
+	
 }
 
 Application::~Application()
 {
 }
 
-void Application::newGame()
+void Application::newGame(bool isMultiplayer)
 {
+	/*
 	Level l;
 	std::string level = utils::FileManager::readResourceFile("level.txt");
 	mGame.reset(new Game(level, [this](){onGameOver();}));
@@ -98,6 +102,36 @@ void Application::newGame()
 	mGame->addObject(player);
 	auto* enemy2 = new Enemy(mGame.get(), 2);
 	mGame->addEnemy(enemy2);
+	m_gameScreen->setPowerUp(0);
+	*/
+
+	Generator g;
+	std::string level;
+	if(isMultiplayer)
+	{
+		level = g.create(true, 10,10);
+		mGame.reset(new Game(level, [this](){onGameOver();}));
+		mGameDrawer.reset(new draw::GameDrawer(mGame->getBoard()));
+	}
+	else if(!isMultiplayer)
+	{
+		level = g.create(false, 10,20);
+		mGame.reset(new Game(level, [this](){onGameOver();}));
+		mGameDrawer.reset(new draw::GameDrawer(mGame->getBoard()));
+		int enemies = 0;
+		for(int i = 0; i < mGame->getBoard()->getGameObjectsSize(); i++)
+		{
+			const GameObject* current = mGame->getBoard()->getObject(i);
+			if(current->getType() == GameObject::PLAYER && current != mGame->getPlayer(0))
+			{
+				auto* enemy = new Enemy(mGame.get(), enemies+1);
+				mGame->addEnemy(enemy);	
+				enemies++;
+			}
+		}
+	}
+	m_gameScreen->setPowerUp(0);
+
 }
 
 void Application::onGameOver()

@@ -74,6 +74,7 @@ src/game/GameObject.cpp
 src/game/Explosion.cpp
 src/game/PowerUp.cpp
 src/game/Enemy.cpp
+src/game/Generator.cpp
 
 src/gameDraw/DrawObject.cpp
 src/gameDraw/GameDrawer.cpp
@@ -84,6 +85,7 @@ src/GUI/game/game_screen.cpp
 src/AppSplashScreen.cpp
 
 src/GUI/game/BoardWidget.cpp
+src/GUI/game/PlayerPowerUpsWidget.cpp
 src/GUI/game/menu_screen.cpp
 src/GUI/game/game_over_screen.cpp
 src/Utils/GuiFactory.cpp

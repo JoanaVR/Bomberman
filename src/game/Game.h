@@ -41,6 +41,7 @@ public:
     void stop (int playerID) override;
     void placeBomb (int playerID) override;
     void addEnemy(IEnemy* enemy);
+    const Player* getPlayer (int playerID) const;
 
 private:
     Board *mBoard;

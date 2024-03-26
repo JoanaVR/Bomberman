@@ -17,7 +17,7 @@ class Player: public GameObject
     Player(int row, int column);
     ~Player();
     GameObject::ObjectType getType() const; 
-    int getLives();
+    int getLives() const;
     void reduceLives();
     Bomb* placingBomb(BombExplosionNotification* notifier);
     void collision(GameObject* object) override;
@@ -29,6 +29,9 @@ class Player: public GameObject
     void setSkinID(int ID);
     void setEnemy(bool isEnemy);
     bool isEnemy();
+    int getKimkBombPowerUpNumber()const;
+    int getEnhancedBombPowerUpNumber()const;
+
 
     private:
     int mLives;

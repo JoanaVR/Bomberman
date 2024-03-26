@@ -20,6 +20,22 @@ namespace rava::gui
 
 		window->add(restartGame);
 
+		std::shared_ptr<rava::gui::Widget> SinglePlayerBtn(new rava::gui::Button("New Single Player Game", []
+																		  {
+																			  Application::getInstance()->closeCurrentDialog();
+																			  std::cout << "SinglePlayerBtn pushed!" << std::endl; 
+																			  Application::getInstance()->newGame(false);}));
+
+		window->add(SinglePlayerBtn);
+
+		std::shared_ptr<rava::gui::Widget> MultiPlayerBtn(new rava::gui::Button("New Multi Player Game", []
+																		  {
+																			  Application::getInstance()->closeCurrentDialog();
+																			  std::cout << "MultiPlayerBtn pushed!" << std::endl;
+																			  Application::getInstance()->newGame(true); }));
+
+		window->add(MultiPlayerBtn);
+
 		window->add(std::shared_ptr<rava::gui::Label>(new rava::gui::Label("")));
 
 		std::shared_ptr<rava::gui::Widget> CloseBtn(new rava::gui::Button("Close", []

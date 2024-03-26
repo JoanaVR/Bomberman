@@ -18,9 +18,12 @@ namespace draw
         // rava::traits::Color btnColor(235, 124, 124);
         // rava::draw2D::fill(renderer, boundingRect, btnColor);
 
-        Application::getInstance()->mGame->move();
-        Widget::draw(renderer);
-        Application::getInstance()->mGameDrawer->drawBoard(renderer, boundingRect);
+        if(Application::getInstance()->mGame)
+        {
+            Application::getInstance()->mGame->move();
+            Widget::draw(renderer);
+            Application::getInstance()->mGameDrawer->drawBoard(renderer, boundingRect);
+        }
     }
 
     bool BoardWidget::keyboardEvent(int key, int scancode, int action, int modifiers)

@@ -35,7 +35,17 @@ namespace rava::gui
         mBoardWidget.reset(new draw::BoardWidget());
         add(mBoardWidget);
 
+        m_PowerUpWidget.reset(new draw::PlayerPowerUpsWidget());
+        add(m_PowerUpWidget);
+
     }
+
+    void GamaScreen::setPowerUp(int playerID)
+    {
+        m_PowerUpWidget->setPowerUps(playerID);
+    }
+
+
 
     void GamaScreen::onResize(int newScreenW, int newScreenH)
     {
@@ -55,6 +65,12 @@ namespace rava::gui
 
         m_menuTabButton->setPosition(rava::traits::Point(navBarRect.x1() + topPadding, navBarRect.y1() + topPadding));
         m_menuTabButton->setSize(rava::traits::Size(btnHeigh, btnHeigh));
+
+        int PowerUpWidgetSize = btnHeigh/2;
+        m_PowerUpWidget->setSize({PowerUpWidgetSize,PowerUpWidgetSize});
+        int x = (newScreenW - PowerUpWidgetSize);
+        int y = (newScreenH - boardRect.y2() - navBarRect.height() - PowerUpWidgetSize);
+        m_PowerUpWidget->setPosition({x,y});
 
     }
 

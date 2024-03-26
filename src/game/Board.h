@@ -30,7 +30,6 @@ class Board: public BombExplosionNotification, public BlockToPowerUpNotification
     std::vector<std::pair<GameObject*, GameObject*>> findCollisions();
     void move();
     void stopOutOfBoardObjects();
-    void removeObject(int row, int column);
     void removeObject(GameObject* object);
     bool isObjectInBombRadius(int bombRow, int bombColumn, int explosionRadius, int objectRow, int objectColumn);
     void explode(Bomb* bomb) override;
